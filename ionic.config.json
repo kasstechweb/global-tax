@@ -1,0 +1,7 @@
+{
+  "name": "Global Tax",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
