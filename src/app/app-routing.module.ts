@@ -7,7 +7,7 @@ const routes: Routes = [
   //   // loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule)
   // },
   {
-    path: 'welcome',
+    path: '',
     loadChildren: () => import('./welcome/welcome.module').then( m => m.WelcomePageModule)
   }
 ];
