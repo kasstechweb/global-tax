@@ -1,0 +1,276 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="personal-taxes"></ion-back-button>
+    </ion-buttons>
+    <ion-title>NEW CLIENT</ion-title>
+  </ion-toolbar>
+  <!-- <ion-toolbar>
+    <ion-segment [(ngModel)]="selectedMode" scrollable>
+      <ion-segment-button [value]="mode" *ngFor="let mode of modes">
+        <ion-label>{{ mode }}</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar> -->
+</ion-header>
+
+
+<ion-content class="signup-content">
+  <!-- <h3>
+    GLOBAL TAX CORPORATION
+  </h3> -->
+  <form [formGroup]="newClientForm" (ngSubmit)="sendMessage()">
+    <ion-list class="inputs-list" lines="full">
+
+      <ion-list class="inputs-list" lines="full">
+        <ion-item class="input-item">
+          <ion-input type="text" placeholder="Name" formControlName="name" clearInput autocapitalize="off"></ion-input>
+        </ion-item>
+        <div class="error-container">
+          <ng-container *ngFor="let validation of validation_messages.name">
+            <div class="error-message" *ngIf="newClientForm.get('name').hasError(validation.type) && (newClientForm.get('name').dirty || newClientForm.get('name').touched)">
+              <ion-icon name="information-circle-outline"></ion-icon>
+              <span>{{ validation.message }}</span>
+            </div>
+          </ng-container>
+        </div>
+
+        <ion-item class="input-item">
+          <ion-input type="email" placeholder="Email*" formControlName="email" clearInput autocapitalize="off" inputmode="email"></ion-input>
+        </ion-item>
+        <div class="error-container">
+          <ng-container *ngFor="let validation of validation_messages.email">
+            <div class="error-message" *ngIf="newClientForm.get('email').hasError(validation.type) && (newClientForm.get('email').dirty || newClientForm.get('email').touched)">
+              <ion-icon name="information-circle-outline"></ion-icon>
+
+              <span>{{ validation.message }}</span>
+            </div>
+          </ng-container>
+        </div>
+
+        <ion-item class="input-item">
+          <ion-input type="number" placeholder="Phone*" formControlName="phone" clearInput autocapitalize="off"></ion-input>
+        </ion-item>
+        <div class="error-container">
+          <ng-container *ngFor="let validation of validation_messages.phone">
+            <div class="error-message" *ngIf="newClientForm.get('phone').hasError(validation.type) && (newClientForm.get('phone').dirty || newClientForm.get('phone').touched)">
+              <ion-icon name="information-circle-outline"></ion-icon>
+              <span>{{ validation.message }}</span>
+            </div>
+          </ng-container>
+        </div>
+
+        <ion-item class="input-item">
+          <ion-input type="text" placeholder="Company" formControlName="company" clearInput autocapitalize="off"></ion-input>
+        </ion-item>
+        <div class="error-container">
+          <ng-container *ngFor="let validation of validation_messages.company">
+            <div class="error-message" *ngIf="newClientForm.get('company').hasError(validation.type) && (newClientForm.get('company').dirty || newClientForm.get('company').touched)">
+              <ion-icon name="information-circle-outline"></ion-icon>
+              <span>{{ validation.message }}</span>
+            </div>
+          </ng-container>
+        </div>
+      </ion-list>
+
+      <ion-list class="inputs-list" lines="full">
+        <ion-item class="input-item">
+          <ion-input type="number" placeholder="SIN #*" formControlName="sin" clearInput="" autocapitalize="off" ></ion-input>
+        </ion-item>
+        <div class="error-container">
+          <ng-container *ngFor="let validation of validation_messages.sin">
+            <div class="error-message" *ngIf="newClientForm.get('sin').hasError(validation.type) && (newClientForm.get('sin').dirty || newClientForm.get('sin').touched)">
+              <ion-icon name="information-circle-outline"></ion-icon>
+              <span>{{ validation.message }}</span>
+            </div>
+          </ng-container>
+        </div>
+
+        <ion-item class="input-item">
+          <ion-label color="medium" position="floating">Date of birth*</ion-label>
+          <ion-input type="date" placeholder="date" formControlName="dob"  clearInput autocapitalize="off"></ion-input>
+        </ion-item>
+        <div class="error-container">
+          <ng-container *ngFor="let validation of validation_messages.dob">
+            <div class="error-message" *ngIf="newClientForm.get('dob').hasError(validation.type) && (newClientForm.get('dob').dirty || newClientForm.get('dob').touched)">
+              <ion-icon name="information-circle-outline"></ion-icon>
+              <span>{{ validation.message }}</span>
+            </div>
+          </ng-container>
+        </div>
+
+        <ion-item class="input-item">
+          <ion-input type="text" placeholder="Address*" formControlName="address" clearInput autocapitalize="off"></ion-input>
+        </ion-item>
+        <div class="error-container">
+          <ng-container *ngFor="let validation of validation_messages.company">
+            <div class="error-message" *ngIf="newClientForm.get('address').hasError(validation.type) && (newClientForm.get('address').dirty || newClientForm.get('address').touched)">
+              <ion-icon name="information-circle-outline"></ion-icon>
+              <span>{{ validation.message }}</span>
+            </div>
+          </ng-container>
+        </div>
+
+        <ion-item class="input-item">
+          <ion-label color="medium" position="floating">Marital Status*</ion-label>
+          <ion-select #statue formControlName="marital_status" cancelText="Cancel" okText="OK" (ionChange)="checkMarriage(statue.value)" required>
+            <ion-select-option *ngFor="let statue of marital_status" [value]="statue" (change)="checkMarriage(statue)">{{ statue }}</ion-select-option>
+          </ion-select>
+        </ion-item>
+        <div class="error-container">
+          <ng-container *ngFor="let validation of validation_messages.marital_status">
+            <div class="error-message" *ngIf="newClientForm.get('marital_status').hasError(validation.type) && (newClientForm.get('marital_status').dirty || newClientForm.get('marital_status').touched)">
+              <ion-icon name="information-circle-outline"></ion-icon>
+              <span>{{ validation.message }}</span>
+            </div>
+          </ng-container>
+        </div>
+
+      </ion-list>
+
+      <!--   /////////////////////////////////////////// if married //////////////////   -->
+      <ion-card *ngIf="check_marriage">
+        <ion-card-content>
+
+          <ion-item class="input-item">
+            <ion-input type="text" placeholder="Spouse name" formControlName="spouse_name" clearInput="" autocapitalize="off"></ion-input>
+          </ion-item>
+          <div class="error-container">
+            <ng-container *ngFor="let validation of validation_messages.spouse_name">
+              <div class="error-message" *ngIf="newClientForm.get('spouse_name').hasError(validation.type) && (newClientForm.get('spouse_name').dirty || newClientForm.get('spouse_name').touched)">
+                <ion-icon name="information-circle-outline"></ion-icon>
+                <span>{{ validation.message }}</span>
+              </div>
+            </ng-container>
+          </div>
+
+          <ion-item class="input-item">
+            <ion-input type="number" placeholder="Spouse SIN #*" formControlName="spouse_sin" clearInput="" autocapitalize="off" ></ion-input>
+          </ion-item>
+          <div class="error-container">
+            <ng-container *ngFor="let validation of validation_messages.spouse_sin">
+              <div class="error-message" *ngIf="newClientForm.get('spouse_sin').hasError(validation.type) && (newClientForm.get('spouse_sin').dirty || newClientForm.get('spouse_sin').touched)">
+                <ion-icon name="information-circle-outline"></ion-icon>
+                <span>{{ validation.message }}</span>
+              </div>
+            </ng-container>
+          </div>
+
+          <ion-item class="input-item">
+            <ion-label color="medium" position="floating">Spouse date of birth*</ion-label>
+            <ion-input type="date" placeholder="date" formControlName="spouse_dob"  clearInput autocapitalize="off"></ion-input>
+          </ion-item>
+          <div class="error-container">
+            <ng-container *ngFor="let validation of validation_messages.spouse_dob">
+              <div class="error-message" *ngIf="newClientForm.get('spouse_dob').hasError(validation.type) && (newClientForm.get('spouse_dob').dirty || newClientForm.get('spouse_dob').touched)">
+                <ion-icon name="information-circle-outline"></ion-icon>
+                <span>{{ validation.message }}</span>
+              </div>
+            </ng-container>
+          </div>
+        </ion-card-content>
+      </ion-card>
+      <!--   *************************** end if married  *************************  -->
+      <ion-list class="inputs-list" lines="full">
+        <ion-button expand="block" color="secondary" id="open-modal" (click)="check_kids()">Add children</ion-button>
+      </ion-list>
+
+      <ion-list>
+        <ion-item class="input-item">
+          <ion-textarea placeholder="Write your message here.*"  formControlName="msg" [autoGrow]="true"></ion-textarea>
+          <!-- <ion-input type="text" placeholder="Company" formControlName="company" clearInput autocapitalize="off" inputmode="phone"></ion-input> -->
+        </ion-item>
+        <div class="error-container">
+          <ng-container *ngFor="let validation of validation_messages.msg">
+            <div class="error-message" *ngIf="newClientForm.get('msg').hasError(validation.type) && (newClientForm.get('msg').dirty || newClientForm.get('msg').touched)">
+              <ion-icon name="information-circle-outline"></ion-icon>
+              <span>{{ validation.message }}</span>
+            </div>
+          </ng-container>
+        </div>
+      </ion-list>
+
+
+      <ion-list class="inputs-list" lines="full">
+        <app-multi-file-upload></app-multi-file-upload>
+      </ion-list>
+
+    </ion-list>
+
+    <ion-button class="signup-btn" type="submit" expand="block">Send Message</ion-button>
+
+  </form>
+
+  <!-- *************************** Modal for adding children ************************* -->
+  <ion-modal trigger="open-modal" (willDismiss)="onWillDismiss($event)">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-buttons slot="start">
+            <ion-button (click)="cancelModal()">Cancel</ion-button>
+          </ion-buttons>
+          <!--          <ion-title>Adding children</ion-title>-->
+          <ion-buttons slot="end">
+            <ion-button (click)="confirmModal()" [strong]="true">Confirm</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding" >
+        <ion-card *ngFor="let child_num of children; let i=index; ">
+          <ion-card-content>
+
+            <ion-item>
+              <ion-input type="text" placeholder="Child #{{child_num}} name" text-right  [(ngModel)]="children_names[child_num]" name="children_names[{{child_num}}]"  id="children_names[{{child_num}}]" clearInput required=""></ion-input>
+            </ion-item>
+
+            <ion-item  class="input-item">
+              <ion-label color="medium" position="floating">Child #{{child_num}} date of birth</ion-label>
+              <ion-input type="date" placeholder=""  [(ngModel)]="children_dob[child_num]" name="children_dob[{{child_num}}]" clearInput autocapitalize="off" required></ion-input>
+            </ion-item>
+
+            <ion-item item-end lines="none">
+              <ion-button size="small" slot="end" color="danger" (click)="add_delete_children(0);">
+                Delete<ion-icon slot="end" name="trash"></ion-icon>
+              </ion-button>
+            </ion-item>
+
+          </ion-card-content>
+        </ion-card>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+  <!-- *************************** End Modal for adding children ************************* -->
+
+</ion-content>
+
+<!-- /////////////////////////         adding deleting cards            //////////////////////////// -->
+<!-- <ion-row>
+  <ion-col col-2>
+  \t<button class="btn btnpos" (click)="add_delete_children(1);" ion-button>
+      <ion-icon style="color: #fff" name="add-circle-outline"></ion-icon>add
+    </button>
+  </ion-col>
+</ion-row>
+
+
+<ion-card *ngFor="let child_num of children; let i=index; ">
+  <ion-row >
+    <ion-col col-10>
+      <ion-item>
+        <ion-label>Child #{{child_num}} Name</ion-label>
+        <ion-input type="text" text-right [(ngModel)]="child_name[child_num]" id="child_name[{{child_num}}]" name="child_name[{{child_num}}]" required></ion-input>
+      </ion-item>
+    </ion-col>
+    <ion-col col-2>
+      <button class="btn btnpos" ion-button (click)="add_delete_children(0);">
+        <ion-icon style="color: #fff" name="trash-outline"></ion-icon>
+      </button>
+    </ion-col>
+  </ion-row>
+
+   <ion-item>
+    <ion-label style="padding-left: 10px;">DOB</ion-label>
+      <ion-input type="number" text-right [(ngModel)]="doc_cont[child_num]" name="doc_cont[{{child_num}}]" required></ion-input>
+  </ion-item>
+</ion-card> -->
+<!-- /////////////////////////         adding deleting cards            //////////////////////////// -->

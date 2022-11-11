@@ -6,8 +6,9 @@ const routes: Routes = [
   //   path: '',
   //   // loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule)
   // },
+  { path: '', redirectTo: '/welcome', pathMatch: 'full' },
   {
-    path: '',
+    path: 'welcome',
     loadChildren: () => import('./welcome/welcome.module').then( m => m.WelcomePageModule)
   },
   {
@@ -17,6 +18,10 @@ const routes: Routes = [
   {
     path: 'existing-client',
     loadChildren: () => import('./existing-client/existing-client.module').then( m => m.ExistingClientPageModule)
+  },
+  {
+    path: 'new-client',
+    loadChildren: () => import('./new-client/new-client.module').then( m => m.NewClientPageModule)
   },
 ];
 @NgModule({
