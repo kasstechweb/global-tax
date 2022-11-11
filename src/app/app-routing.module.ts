@@ -13,7 +13,11 @@ const routes: Routes = [
   {
     path: 'personal-taxes',
     loadChildren: () => import('./personal-taxes/personal-taxes.module').then( m => m.PersonalTaxesPageModule)
-  }
+  },
+  {
+    path: 'existing-client',
+    loadChildren: () => import('./existing-client/existing-client.module').then( m => m.ExistingClientPageModule)
+  },
 ];
 @NgModule({
   imports: [
