@@ -4,6 +4,7 @@ import {Router} from "@angular/router";
 import {ToastController} from "@ionic/angular";
 import {HttpClient} from "@angular/common/http";
 import {MultiFileUploadComponent} from "../components/multi-file-upload/multi-file-upload.component";
+import {IonLoaderService} from "../ion-loader.service";
 
 @Component({
   selector: 'app-existing-client',
@@ -50,7 +51,7 @@ export class ExistingClientPage implements OnInit {
     public router: Router,
     private toastController: ToastController,
     public http: HttpClient,
-    // private ionLoader: IonLoaderService,
+    private ionLoader: IonLoaderService,
   ) {
     this.signupForm = new FormGroup({
       'email': new FormControl('', Validators.compose([
@@ -94,7 +95,7 @@ export class ExistingClientPage implements OnInit {
       console.log('test');
       this.presentToast('Please add the missing data and try again.');
     }else {
-      // this.ionLoader.showLoader();
+      this.ionLoader.showLoader();
       let files = this.fileField.getFiles();
 
       let formData = new FormData();
@@ -104,9 +105,9 @@ export class ExistingClientPage implements OnInit {
       formData.append('company', this.signupForm.value['company']);
       formData.append('msg', this.signupForm.value['msg']);
 
-      // files.forEach((file) => {
-      //   formData.append('files[]', file.rawFile, file.name);
-      // });
+      files.forEach((file) => {
+        formData.append('files[]', file.rawFile, file.name);
+      });
       // POST formData to Server
 
       // console.log(formData.getAll('files[]'));
@@ -114,7 +115,7 @@ export class ExistingClientPage implements OnInit {
 
       this.http.post('https://employerservice.ca/gtaxapp/send.php', formData).subscribe(
         data => {
-          // this.ionLoader.dismissLoader();
+          this.ionLoader.dismissLoader();
           console.log(data['_body']);
           this.presentToast(data['_body']);
           if(data['_body'] == 'Message has been sent'){
@@ -122,10 +123,11 @@ export class ExistingClientPage implements OnInit {
             this.fileField.clearQueue();
           }
         }, error => {
-          console.log('error');
-          this.presentToast('error');
+          // console.log('error');
+          this.ionLoader.dismissLoader();
+          this.presentToast('Unable to send message, please try again later.');
           console.log(error);
-          // this.ionLoader.dismissLoader();
+
         });
     }
   }

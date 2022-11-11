@@ -5,6 +5,7 @@ import { OverlayEventDetail } from '@ionic/core/components';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
 import {HttpClient} from "@angular/common/http";
+import {IonLoaderService} from "../ion-loader.service";
 
 @Component({
   selector: 'app-new-client',
@@ -79,7 +80,7 @@ export class NewClientPage implements OnInit{
     public router: Router,
     private toastController: ToastController,
     public http: HttpClient,
-    // private ionLoader: IonLoaderService,
+    private ionLoader: IonLoaderService,
   ) {
     this.newClientForm = new FormGroup({
       'email': new FormControl('', Validators.compose([
@@ -237,7 +238,7 @@ export class NewClientPage implements OnInit{
       // console.log('test');
       this.presentToast('Please add the missing data and try again.');
     }else {
-      // this.ionLoader.showLoader();
+      this.ionLoader.showLoader();
       let files = this.fileField.getFiles();
 
       let formData = new FormData();
@@ -271,16 +272,16 @@ export class NewClientPage implements OnInit{
 
       this.http.post('https://employerservice.ca/gtaxapp/send_new.php', formData).subscribe(
       data => {
-        // this.ionLoader.dismissLoader();
+        this.ionLoader.dismissLoader();
         console.log(data['_body']);
         this.presentToast(data['_body']);
-        // if(data['_body'] == 'Message has been sent'){
-        //   this.newClientForm.reset();
-        //   this.fileField.removeAll();
-        // }
+        if(data['_body'] == 'Message has been sent'){
+          this.newClientForm.reset();
+          this.fileField.clearQueue();
+        }
       }, error => {
         // console.log('error');
-        // this.ionLoader.dismissLoader();
+        this.ionLoader.dismissLoader();
         this.presentToast('Unable to send message, please try again later.');
         // console.log(error);
 
