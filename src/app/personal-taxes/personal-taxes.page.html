@@ -1,0 +1,37 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="welcome"></ion-back-button>
+    </ion-buttons>
+    <ion-title>PERSONAL TAXES</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="deals-details-content">
+
+  <div class="related-deals-wrapper">
+    <!-- <h3 class="related-deals-title">Welcome back Name</h3> -->
+    <ion-row class="related-deal" [routerLink]="['/exisiting-client']">
+      <ion-col class="deal-logo-wrapper" size="4">
+        <img class="inner-img" src="./assets/imgs/personal.png" alt="personal logo" loading="lazy">
+      </ion-col>
+      <ion-col class="deal-info-wrapper" size="8">
+        <h4 class="related-deal-title">
+          <span class="app-text-shell"> Existing client </span>
+        </h4>
+      </ion-col>
+    </ion-row>
+
+    <ion-row class="related-deal"  [routerLink]="['/new-client']">
+      <ion-col class="deal-logo-wrapper" size="4">
+        <img class="inner-img" src="./assets/imgs/new_client.png" alt="personal logo" loading="lazy">
+      </ion-col>
+      <ion-col class="deal-info-wrapper" size="8">
+        <h4 class="related-deal-title">
+          <span class="app-text-shell"> New client </span>
+        </h4>
+      </ion-col>
+    </ion-row>
+
+  </div>
+</ion-content>
