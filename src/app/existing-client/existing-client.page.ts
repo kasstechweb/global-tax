@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Router} from "@angular/router";
 import {ToastController} from "@ionic/angular";
 import {HttpClient} from "@angular/common/http";
+import {MultiFileUploadComponent} from "../components/multi-file-upload/multi-file-upload.component";
 
 @Component({
   selector: 'app-existing-client',
@@ -10,7 +11,7 @@ import {HttpClient} from "@angular/common/http";
   styleUrls: ['./existing-client.page.scss'],
 })
 export class ExistingClientPage implements OnInit {
-  // @ViewChild(MultiFileUploadComponent) fileField: MultiFileUploadComponent;
+  @ViewChild(MultiFileUploadComponent) fileField: MultiFileUploadComponent;
   signupForm: FormGroup;
   matching_passwords_group: FormGroup;
   email: string;
@@ -58,7 +59,6 @@ export class ExistingClientPage implements OnInit {
       ])),
       'phone': new FormControl('', Validators.compose([
         Validators.required,
-        Validators.pattern('^[0-9]+$')
       ])),
       'company': new FormControl('', Validators.compose([
 
@@ -95,7 +95,7 @@ export class ExistingClientPage implements OnInit {
       this.presentToast('Please add the missing data and try again.');
     }else {
       // this.ionLoader.showLoader();
-      // let files = this.fileField.getFiles();
+      let files = this.fileField.getFiles();
 
       let formData = new FormData();
       formData.append('name', this.signupForm.value['name']);
@@ -119,7 +119,7 @@ export class ExistingClientPage implements OnInit {
           this.presentToast(data['_body']);
           if(data['_body'] == 'Message has been sent'){
             this.signupForm.reset();
-            // this.fileField.removeAll();
+            this.fileField.clearQueue();
           }
         }, error => {
           console.log('error');

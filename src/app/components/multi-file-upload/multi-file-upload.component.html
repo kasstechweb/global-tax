@@ -1,0 +1,26 @@
+<!-- <div
+  ng2FileDrop
+  [ngClass]="{\'nv-file-over\': hasBaseDropZoneOver}"
+  (fileOver)="fileOverBase($event)"
+  [uploader]="uploader"
+  class="drop-zone"
+>
+  Drop files here...
+</div> -->
+<div class="file-input-container">
+  <!-- <ion-button class="social-auth-btn google-auth-btn" color="danger" expand="block"> -->
+  <label>
+    <input type="file" ng2FileSelect [uploader]="uploader" multiple />
+    Add Files
+  </label>
+  <!-- </ion-button> -->
+</div>
+<p>Files: {{ uploader?.queue?.length }}</p>
+<ion-list>
+  <ion-reorder-group (ionItemReorder)="reorderFiles($event)" disabled="true">
+    <ion-item *ngFor="let item of uploader.queue">
+      <ion-label> {{ item?.file?.name }} <br /> ({{ item?.file?.size/1024/1024 | number:'.2' }} MB)</ion-label>
+        <ion-icon name="trash" (click)="item.remove()"></ion-icon>
+    </ion-item>
+  </ion-reorder-group>
+</ion-list>
