@@ -23,6 +23,10 @@ const routes: Routes = [
     path: 'new-client',
     loadChildren: () => import('./new-client/new-client.module').then( m => m.NewClientPageModule)
   },
+  {
+    path: 'payment',
+    loadChildren: () => import('./payment/payment.module').then( m => m.PaymentPageModule)
+  },
 ];
 @NgModule({
   imports: [
