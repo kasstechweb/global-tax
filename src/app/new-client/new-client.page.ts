@@ -1,11 +1,12 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {AlertController, IonModal, ToastController} from "@ionic/angular";
+import {AlertController, IonModal} from "@ionic/angular";
 import {MultiFileUploadComponent} from "../components/multi-file-upload/multi-file-upload.component";
 import { OverlayEventDetail } from '@ionic/core/components';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
 import {HttpClient} from "@angular/common/http";
 import {IonLoaderService} from "../services/ion-loader.service";
+import {ToastService} from "../services/toast.service";
 
 @Component({
   selector: 'app-new-client',
@@ -78,7 +79,7 @@ export class NewClientPage implements OnInit{
   constructor(
     private alertController: AlertController,
     public router: Router,
-    private toastController: ToastController,
+    private toast: ToastService,
     public http: HttpClient,
     private ionLoader: IonLoaderService,
   ) {
@@ -203,16 +204,6 @@ export class NewClientPage implements OnInit{
     await alert.present();
   }
 
-  async presentToast(msg: string) {
-    const toast = await this.toastController.create({
-        message: msg,
-        duration: 1500,
-        position: 'bottom'
-    });
-
-    await toast.present();
-  }
-
   sendMessage(): void {
     // console.log(this.check_marriage);
     if (this.check_marriage == false){
@@ -236,7 +227,7 @@ export class NewClientPage implements OnInit{
       this.newClientForm.controls['sin'].markAsTouched();
       this.newClientForm.controls['dob'].markAsTouched();
       // console.log('test');
-      this.presentToast('Please add the missing data and try again.');
+      this.toast.presentToast('Please add the missing data and try again.');
     }else {
       this.ionLoader.showLoader();
       let files = this.fileField.getFiles();
@@ -274,7 +265,7 @@ export class NewClientPage implements OnInit{
       data => {
         this.ionLoader.dismissLoader();
         console.log(data['_body']);
-        this.presentToast(data['_body']);
+        this.toast.presentToast(data['_body']);
         if(data['_body'] == 'Message has been sent'){
           this.newClientForm.reset();
           this.fileField.clearQueue();
@@ -282,7 +273,7 @@ export class NewClientPage implements OnInit{
       }, error => {
         // console.log('error');
         this.ionLoader.dismissLoader();
-        this.presentToast('Unable to send message, please try again later.');
+        this.toast.presentToast('Unable to send message, please try again later.');
         // console.log(error);
 
       });

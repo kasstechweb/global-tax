@@ -1,10 +1,10 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Router} from "@angular/router";
-import {ToastController} from "@ionic/angular";
 import {HttpClient} from "@angular/common/http";
 import {MultiFileUploadComponent} from "../components/multi-file-upload/multi-file-upload.component";
 import {IonLoaderService} from "../services/ion-loader.service";
+import {ToastService} from "../services/toast.service";
 
 @Component({
   selector: 'app-existing-client',
@@ -49,7 +49,7 @@ export class ExistingClientPage implements OnInit {
 
   constructor(
     public router: Router,
-    private toastController: ToastController,
+    private toast: ToastService,
     public http: HttpClient,
     private ionLoader: IonLoaderService,
   ) {
@@ -77,23 +77,13 @@ export class ExistingClientPage implements OnInit {
   ngOnInit() {
   }
 
-  async presentToast(msg: string) {
-    const toast = await this.toastController.create({
-      message: msg,
-      duration: 1500,
-      position: 'bottom'
-    });
-
-    await toast.present();
-  }
-
   sendMessage(): void {
     if(!this.signupForm.valid){
       this.signupForm.controls['email'].markAsTouched();
       this.signupForm.controls['phone'].markAsTouched();
       this.signupForm.controls['msg'].markAsTouched();
       console.log('test');
-      this.presentToast('Please add the missing data and try again.');
+      this.toast.presentToast('Please add the missing data and try again.');
     }else {
       this.ionLoader.showLoader();
       let files = this.fileField.getFiles();
@@ -117,7 +107,7 @@ export class ExistingClientPage implements OnInit {
         data => {
           this.ionLoader.dismissLoader();
           console.log(data['_body']);
-          this.presentToast(data['_body']);
+          this.toast.presentToast(data['_body']);
           if(data['_body'] == 'Message has been sent'){
             this.signupForm.reset();
             this.fileField.clearQueue();
@@ -125,7 +115,7 @@ export class ExistingClientPage implements OnInit {
         }, error => {
           // console.log('error');
           this.ionLoader.dismissLoader();
-          this.presentToast('Unable to send message, please try again later.');
+          this.toast.presentToast('Unable to send message, please try again later.');
           console.log(error);
 
         });
