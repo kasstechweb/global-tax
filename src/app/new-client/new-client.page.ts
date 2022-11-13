@@ -5,7 +5,7 @@ import { OverlayEventDetail } from '@ionic/core/components';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
 import {HttpClient} from "@angular/common/http";
-import {IonLoaderService} from "../ion-loader.service";
+import {IonLoaderService} from "../services/ion-loader.service";
 
 @Component({
   selector: 'app-new-client',

@@ -4,7 +4,7 @@ import {Router} from "@angular/router";
 import {ToastController} from "@ionic/angular";
 import {HttpClient} from "@angular/common/http";
 import {MultiFileUploadComponent} from "../components/multi-file-upload/multi-file-upload.component";
-import {IonLoaderService} from "../ion-loader.service";
+import {IonLoaderService} from "../services/ion-loader.service";
 
 @Component({
   selector: 'app-existing-client',

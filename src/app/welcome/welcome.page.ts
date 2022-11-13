@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {DataService} from "../services/data.service";
 
 @Component({
   selector: 'app-welcome',
@@ -6,8 +7,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./welcome.page.scss'],
 })
 export class WelcomePage implements OnInit {
-
-  constructor() { }
+  private name: string;
+  constructor(
+    private dataservice: DataService,
+  ) {
+    this.name = this.dataservice.getData('name');
+  }
 
   ngOnInit() {
   }
