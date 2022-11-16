@@ -22,7 +22,6 @@ export class AppComponent {
         }else {
           console.log('error read from storage')
         }
-      }
-    )
+      });
   }
 }

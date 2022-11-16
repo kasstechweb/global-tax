@@ -6,6 +6,8 @@ import {MultiFileUploadComponent} from "../components/multi-file-upload/multi-fi
 import {IonLoaderService} from "../services/ion-loader.service";
 import {ToastService} from "../services/toast.service";
 
+import {StorageService} from "../services/storage.service";
+
 @Component({
   selector: 'app-existing-client',
   templateUrl: './existing-client.page.html',
@@ -52,6 +54,7 @@ export class ExistingClientPage implements OnInit {
     private toast: ToastService,
     public http: HttpClient,
     private ionLoader: IonLoaderService,
+    private storage: StorageService,
   ) {
     this.signupForm = new FormGroup({
       'email': new FormControl('', Validators.compose([
@@ -60,6 +63,7 @@ export class ExistingClientPage implements OnInit {
       ])),
       'phone': new FormControl('', Validators.compose([
         Validators.required,
+        Validators.pattern('^[0-9_.+-]+$'),
       ])),
       'company': new FormControl('', Validators.compose([
 
@@ -75,6 +79,12 @@ export class ExistingClientPage implements OnInit {
   }
 
   ngOnInit() {
+    //check if values in storage
+    this.checkStorage('name');
+    this.checkStorage('email');
+    this.checkStorage('phone');
+    this.checkStorage('company');
+    // this.signupForm.controls['name'].setValue('test');
   }
 
   sendMessage(): void {
@@ -98,6 +108,13 @@ export class ExistingClientPage implements OnInit {
       files.forEach((file) => {
         formData.append('files[]', file.rawFile, file.name);
       });
+
+      // store user data locally
+      this.storage.setStorageData('name', this.signupForm.value['name']);
+      this.storage.setStorageData('email', this.signupForm.value['email']);
+      this.storage.setStorageData('phone', this.signupForm.value['phone']);
+      this.storage.setStorageData('company', this.signupForm.value['company']);
+
       // POST formData to Server
 
       // console.log(formData.getAll('files[]'));
@@ -120,6 +137,19 @@ export class ExistingClientPage implements OnInit {
 
         });
     }
+  }
+
+  checkStorage(key){
+    this.storage.getStorageData(key).then(
+      res => {
+        if (res){
+          this.signupForm.controls[key].setValue(JSON.parse(res));
+          // console.log(res.key);
+          // console.log(res);
+        }else {
+          console.log('error read from storage')
+        }
+      });
   }
 
 }
