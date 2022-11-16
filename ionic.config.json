@@ -3,5 +3,9 @@
   "integrations": {
     "capacitor": {}
   },
-  "type": "angular"
+  "type": "angular",
+  "proxies": [{
+    "path": "/v2/online-checkout/payment-links",
+    "proxyUrl": "https://connect.squareupsandbox.com"
+  }]
 }

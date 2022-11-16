@@ -55,14 +55,18 @@ export class PaymentPage implements OnInit {
         console.log(data);
         this.presentToast(data['payment_link']['url']);
       }, error => {
-        console.log('error');
-        this.presentToast('err');
+        console.log(error);
+        this.presentToast(error.message);
 
       });
+
+
   }
 
   async testBrowser() {
-    await Browser.open({ url: 'http://capacitorjs.com/' });
+    // await Browser.open({ url: 'https://employerservice.ca/gtaxapp/payment/' });
+    //http://localhost/web-payments-quickstart/public/
+    await Browser.open({ url: 'http://192.168.1.4/web-payments-quickstart/public/' });
   }
 
   // async getLocations() {
