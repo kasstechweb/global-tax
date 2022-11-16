@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {DataService} from "../services/data.service";
+import {Browser} from "@capacitor/browser";
 
 @Component({
   selector: 'app-welcome',
@@ -15,6 +16,10 @@ export class WelcomePage implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  async openPayment() {
+    await Browser.open({ url: 'https://employerservice.ca/gtaxapp/payment/' });
   }
 
 }

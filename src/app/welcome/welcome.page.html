@@ -40,7 +40,7 @@
       </ion-col>
     </ion-row>
 
-    <ion-row class="related-deal"   [routerLink]="['/payment']">
+    <ion-row class="related-deal" (click)="openPayment()">
       <ion-col class="deal-logo-wrapper" size="4">
         <img class="inner-img" src="./assets/imgs/payment.png" alt="personal logo" loading="lazy">
       </ion-col>

@@ -18,6 +18,7 @@ export class AppComponent {
     this.storage.getStorageData('name').then(
       res => {
         if (res){
+          this.dataService.setData('name', JSON.parse(res));
           console.log(res);
         }else {
           console.log('error read from storage')
