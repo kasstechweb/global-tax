@@ -75,7 +75,7 @@
 
       <ion-list class="inputs-list" lines="full">
         <ion-item class="input-item">
-          <ion-input type="number" placeholder="SIN #*" formControlName="sin" clearInput="" autocapitalize="off" ></ion-input>
+          <ion-input type="text" placeholder="SIN #*" formControlName="sin" clearInput="" autocapitalize="off" ></ion-input>
         </ion-item>
         <div class="error-container">
           <ng-container *ngFor="let validation of validation_messages.sin">
@@ -145,7 +145,7 @@
           </div>
 
           <ion-item class="input-item">
-            <ion-input type="number" placeholder="Spouse SIN #*" formControlName="spouse_sin" clearInput="" autocapitalize="off" ></ion-input>
+            <ion-input type="text" placeholder="Spouse SIN #*" formControlName="spouse_sin" clearInput="" autocapitalize="off" ></ion-input>
           </ion-item>
           <div class="error-container">
             <ng-container *ngFor="let validation of validation_messages.spouse_sin">
@@ -220,11 +220,11 @@
           <ion-card-content>
 
             <ion-item>
-              <ion-input type="text" placeholder="Child #{{child_num}} name" text-right  [(ngModel)]="children_names[child_num]" name="children_names[{{child_num}}]"  id="children_names[{{child_num}}]" clearInput required=""></ion-input>
+              <ion-input type="text" placeholder="Child #{{child_num+1}} name" text-right  [(ngModel)]="children_names[child_num]" name="children_names[{{child_num}}]"  id="children_names[{{child_num}}]" clearInput required=""></ion-input>
             </ion-item>
 
             <ion-item  class="input-item">
-              <ion-label color="medium" position="floating">Child #{{child_num}} date of birth</ion-label>
+              <ion-label color="medium" position="floating">Child #{{child_num+1}} date of birth</ion-label>
               <ion-input type="date" placeholder=""  [(ngModel)]="children_dob[child_num]" name="children_dob[{{child_num}}]" clearInput autocapitalize="off" required></ion-input>
             </ion-item>
 

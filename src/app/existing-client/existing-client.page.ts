@@ -92,7 +92,7 @@ export class ExistingClientPage implements OnInit {
       this.signupForm.controls['email'].markAsTouched();
       this.signupForm.controls['phone'].markAsTouched();
       this.signupForm.controls['msg'].markAsTouched();
-      console.log('test');
+      // console.log('test');
       this.toast.presentToast('Please add the missing data and try again.');
     }else {
       this.ionLoader.showLoader();
@@ -123,17 +123,17 @@ export class ExistingClientPage implements OnInit {
       this.http.post('https://employerservice.ca/gtaxapp/send.php', formData).subscribe(
         data => {
           this.ionLoader.dismissLoader();
-          console.log(data['_body']);
+          // console.log(data['_body']);
           this.toast.presentToast(data['_body']);
           if(data['_body'] == 'Message has been sent'){
-            this.signupForm.reset();
+            // this.signupForm.reset();
             this.fileField.clearQueue();
           }
         }, error => {
           // console.log('error');
           this.ionLoader.dismissLoader();
           this.toast.presentToast('Unable to send message, please try again later.');
-          console.log(error);
+          // console.log(error);
 
         });
     }

@@ -7,6 +7,7 @@ import {Router} from "@angular/router";
 import {HttpClient} from "@angular/common/http";
 import {IonLoaderService} from "../services/ion-loader.service";
 import {ToastService} from "../services/toast.service";
+import {StorageService} from "../services/storage.service";
 
 @Component({
   selector: 'app-new-client',
@@ -60,16 +61,18 @@ export class NewClientPage implements OnInit{
     { type: 'pattern', message: 'Enter a valid name.' }
     ],
     'spouse_sin': [
-    {type: 'required', message: 'Spouse SIN # is required.'},
-    { type: 'NotEqual', message: 'SIN must be 9 numbers.' },
+      {type: 'required', message: 'Spouse SIN # is required.'},
+      { type: 'NotEqual', message: 'SIN must be 9 numbers.' },
+      { type: 'pattern', message: 'Enter a valid SIN #.' }
       // { type: 'maxLength', message: 'SIN must be 9 numbers.' }
     ],
     'address': [
     { type: 'required', message: 'Address is required.' }
     ],
     'sin': [
-    { type: 'required', message: 'SIN # is required.' },
-    { type: 'NotEqual', message: 'SIN # must be 9 numbers.' },
+      { type: 'required', message: 'SIN # is required.' },
+      { type: 'NotEqual', message: 'SIN # must be 9 numbers.' },
+      { type: 'pattern', message: 'Enter a valid SIN #.' }
     ],
     'dob': [
     { type: 'required', message: 'Date of birth is required.' }
@@ -82,6 +85,7 @@ export class NewClientPage implements OnInit{
     private toast: ToastService,
     public http: HttpClient,
     private ionLoader: IonLoaderService,
+    private storage: StorageService,
   ) {
     this.newClientForm = new FormGroup({
       'email': new FormControl('', Validators.compose([
@@ -115,14 +119,16 @@ export class NewClientPage implements OnInit{
       // Validators.maxLength(9),
       // Validators.minLength(9),
       this.isValidSINNumber.bind(this),
-        Validators.required,
+      Validators.pattern('^[0-9]+$'),
+      Validators.required,
     ])),
     'address': new FormControl('', Validators.compose([
       Validators.required,
     ])),
     'sin': new FormControl('', Validators.compose([
       Validators.required,
-        this.isValidSINNumber.bind(this),
+      Validators.pattern('^[0-9]+$'),
+      this.isValidSINNumber.bind(this),
     ])),
     'dob': new FormControl('', Validators.compose([
       Validators.required,
@@ -149,6 +155,22 @@ export class NewClientPage implements OnInit{
       'Divorced',
       'Single'
   ];
+
+    //check if values in storage
+    this.checkStorage('name');
+    this.checkStorage('email');
+    this.checkStorage('phone');
+    this.checkStorage('company');
+    this.checkStorage('marital_status');
+    this.checkStorage('spouse_name');
+    this.checkStorage('spouse_sin');
+    this.checkStorage('spouse_dob');
+    this.checkStorage('address');
+    this.checkStorage('sin');
+    this.checkStorage('dob');
+
+    this.checkStorage('children_names');
+    this.checkStorage('children_dob');
     // this.validationsForm = new FormGroup({
 
     //   'gender': new FormControl(this.genders[0]),
@@ -256,6 +278,22 @@ export class NewClientPage implements OnInit{
       files.forEach((file) => {
         formData.append('files[]', file.rawFile, file.name);
       });
+
+      // store user data locally
+      this.storage.setStorageData('name', this.newClientForm.value['name']);
+      this.storage.setStorageData('email', this.newClientForm.value['email']);
+      this.storage.setStorageData('phone', this.newClientForm.value['phone']);
+      this.storage.setStorageData('company', this.newClientForm.value['company']);
+      this.storage.setStorageData('marital_status', this.newClientForm.value['marital_status']);
+      this.storage.setStorageData('spouse_name', this.newClientForm.value['spouse_name']);
+      this.storage.setStorageData('spouse_sin', this.newClientForm.value['spouse_sin']);
+      this.storage.setStorageData('spouse_dob', this.newClientForm.value['spouse_dob']);
+      this.storage.setStorageData('address', this.newClientForm.value['address']);
+      this.storage.setStorageData('sin', this.newClientForm.value['sin']);
+      this.storage.setStorageData('dob', this.newClientForm.value['dob']);
+
+      this.storage.setStorageData('children_names', this.children_names);
+      this.storage.setStorageData('children_dob', this.children_dob);
       // POST formData to Server
 
       console.log(this.children_names);
@@ -267,7 +305,7 @@ export class NewClientPage implements OnInit{
         console.log(data['_body']);
         this.toast.presentToast(data['_body']);
         if(data['_body'] == 'Message has been sent'){
-          this.newClientForm.reset();
+          // this.newClientForm.reset();
           this.fileField.clearQueue();
         }
       }, error => {
@@ -319,5 +357,60 @@ export class NewClientPage implements OnInit{
 }
 ///////////////////////////////////// End modal ///////////////////////////
 
+  checkStorage(key){
+    this.storage.getStorageData(key).then(
+      res => {
+        switch (key) {
+          case 'children_names':{
+            console.log(JSON.parse(res));
+            this.children_names = JSON.parse(res);
+            this.children_names.forEach(() => {
+              this.add_delete_children(1);
+            });
+            break;
+          }
+          case 'children_dob':{
+            console.log(JSON.parse(res));
+            this.children_dob = JSON.parse(res);
+            // this.children_names.forEach(() => {
+            //   this.add_delete_children(1);
+            // });
+            break;
+          }
+          case 'marital_status': {
+            if (JSON.parse(res) == 'Married') {
+              this.checkMarriage('Married');
+            }
+            this.newClientForm.controls[key].setValue(JSON.parse(res));
+            break;
+          }
+          default: {
+            if (res){
+              this.newClientForm.controls[key].setValue(JSON.parse(res));
+              // console.log(res.key);
+              // console.log(res);
+            }else {
+              console.log('error read from storage')
+            }
+          }
+
+        }
+
+        // if (key == 'marital_status' && JSON.parse(res) == 'Married'){
+        //   this.checkMarriage('Married');
+        // }
+        // if(key == 'children_names'){
+        //   console.log(res)
+        // }else{
+        //   if (res){
+        //     this.newClientForm.controls[key].setValue(JSON.parse(res));
+        //     // console.log(res.key);
+        //     // console.log(res);
+        //   }else {
+        //     console.log('error read from storage')
+        //   }
+        // }
+      });
+  }
 
 }
