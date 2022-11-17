@@ -3,18 +3,19 @@ import { CapacitorConfig } from '@capacitor/cli';
 const config: CapacitorConfig = {
   plugins: {
     SplashScreen: {
-      launchShowDuration: 5000,
-      launchAutoHide: true,
-      androidScaleType: "CENTER_CROP",
-      androidSplashResourceName: "splash",
+      launchShowDuration: 3000,
+      launchAutoHide: false,
+      androidScaleType: "CENTER_INSIDE",
       splashFullScreen: false,
-      splashImmersive: false
+      splashImmersive: false,
+      backgroundColor: "#1C3461",
+      androidSplashResourceName: "splash"
     }
   },
   android: {
     allowMixedContent: true
   },
-  appId: 'io.ionic.starter',
+  appId: 'com.kasstechweb.gtax',
   appName: 'Global Tax',
   webDir: 'www',
   bundledWebRuntime: false

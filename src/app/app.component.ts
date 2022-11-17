@@ -1,6 +1,10 @@
 import { Component } from '@angular/core';
 import {DataService} from "./services/data.service";
 import {StorageService} from "./services/storage.service";
+import {Platform} from "@ionic/angular";
+import {SplashScreen} from "@capacitor/splash-screen";
+// import {FcmService} from "./services/fcm.service";
+
 
 @Component({
   selector: 'app-root',
@@ -11,7 +15,25 @@ export class AppComponent {
   constructor(
     private dataService: DataService,
     private storage: StorageService,
+    private platform: Platform,
+    // private splashScreen: SplashScreen,
+    // private fcmService: FcmService,
   ) {
+    this.initializeApp();
+    this.getData();
+  }
+
+  initializeApp(){
+    this.platform.ready().then(async () => {
+      setTimeout(()=>{
+        SplashScreen.hide({
+          fadeOutDuration: 1000
+        });
+      }, 2000)
+    })
+  }
+
+  getData(){
     this.dataService.setData('name', 'testName');
     // this.storage.clearStorage();
     // this.storage.setStorageData('name', 'testtttt');
