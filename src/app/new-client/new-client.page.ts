@@ -362,16 +362,22 @@ export class NewClientPage implements OnInit{
       res => {
         switch (key) {
           case 'children_names':{
-            console.log(JSON.parse(res));
-            this.children_names = JSON.parse(res);
-            this.children_names.forEach(() => {
-              this.add_delete_children(1);
-            });
+            // console.log(JSON.parse(res));
+            if (JSON.parse(res)){
+              this.children_names = JSON.parse(res);
+              this.children_names.forEach(() => {
+                this.add_delete_children(1);
+              });
+            }
+
             break;
           }
           case 'children_dob':{
-            console.log(JSON.parse(res));
-            this.children_dob = JSON.parse(res);
+            // console.log(JSON.parse(res));
+            if (JSON.parse(res)){
+              this.children_dob = JSON.parse(res);
+            }
+            
             // this.children_names.forEach(() => {
             //   this.add_delete_children(1);
             // });
