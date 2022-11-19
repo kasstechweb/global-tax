@@ -3,8 +3,9 @@ import {DataService} from "./services/data.service";
 import {StorageService} from "./services/storage.service";
 import {Platform} from "@ionic/angular";
 import {SplashScreen} from "@capacitor/splash-screen";
-// import {FcmService} from "./services/fcm.service";
+import {FcmService} from "./services/fcm.service";
 
+import {FCM} from "@capacitor-community/fcm";
 
 @Component({
   selector: 'app-root',
@@ -17,7 +18,7 @@ export class AppComponent {
     private storage: StorageService,
     private platform: Platform,
     // private splashScreen: SplashScreen,
-    // private fcmService: FcmService,
+    private fcmService: FcmService,
   ) {
     this.initializeApp();
     this.getData();
@@ -29,12 +30,15 @@ export class AppComponent {
         SplashScreen.hide({
           fadeOutDuration: 1000
         });
-      }, 2000)
+      }, 2000);
+      this.fcmService.initPush();
+
+        // .catch((err) => console.log(err));
     })
   }
 
   getData(){
-    this.dataService.setData('name', 'testName');
+    // this.dataService.setData('name', 'testName');
     // this.storage.clearStorage();
     // this.storage.setStorageData('name', 'testtttt');
     this.storage.getStorageData('name').then(

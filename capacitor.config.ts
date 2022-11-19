@@ -10,6 +10,9 @@ const config: CapacitorConfig = {
       splashImmersive: false,
       backgroundColor: "#1C3461",
       androidSplashResourceName: "splash"
+    },
+    PushNotifications: {
+      presentationOptions: ["badge", "sound", "alert"]
     }
   },
   android: {
