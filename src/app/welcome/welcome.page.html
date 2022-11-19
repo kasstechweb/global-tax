@@ -13,13 +13,16 @@
     <h3 class="related-deals-title">Welcome back {{name}}</h3>
 
     <ion-row class="related-deal"  [routerLink]="['/personal-taxes']">
-      <ion-col class="deal-logo-wrapper" size="4">
+
+      <ion-col class="deal-logo-wrapper ion-activatable" size="4">
+        <ion-ripple-effect></ion-ripple-effect>
         <img class="inner-img" src="./assets/imgs/personal.png" alt="personal logo" loading="lazy">
         <!-- <app-aspect-ratio > -->
         <!-- <app-image-shell [src]="deal.logo" [alt]="'deals logo'" class="related-deal-logo" animation="spinner"></app-image-shell> -->
         <!-- </app-aspect-ratio> -->
       </ion-col>
-      <ion-col class="deal-info-wrapper" size="8">
+      <ion-col class="deal-info-wrapper ion-activatable" size="8">
+        <ion-ripple-effect></ion-ripple-effect>
         <h4 class="related-deal-title">
           <span class="app-text-shell"> Personal taxes </span>
           <!-- test -->
@@ -29,11 +32,13 @@
       </ion-col>
     </ion-row>
 
-    <ion-row class="related-deal"  [routerLink]="['/existing-client']">
+    <ion-row class="related-deal ion-activatable"  [routerLink]="['/existing-client']">
       <ion-col class="deal-logo-wrapper" size="4">
+        <ion-ripple-effect></ion-ripple-effect>
         <img class="inner-img" src="./assets/imgs/business.png" alt="personal logo" loading="lazy">
       </ion-col>
-      <ion-col class="deal-info-wrapper" size="8">
+      <ion-col class="deal-info-wrapper ion-activatable" size="8">
+        <ion-ripple-effect></ion-ripple-effect>
         <h4 class="related-deal-title">
           <span class="app-text-shell"> Business taxes </span>
         </h4>
@@ -41,10 +46,12 @@
     </ion-row>
 
     <ion-row class="related-deal" (click)="openPayment()">
-      <ion-col class="deal-logo-wrapper" size="4">
+      <ion-col class="deal-logo-wrapper ion-activatable" size="4">
+        <ion-ripple-effect></ion-ripple-effect>
         <img class="inner-img" src="./assets/imgs/payment.png" alt="personal logo" loading="lazy">
       </ion-col>
-      <ion-col class="deal-info-wrapper" size="8">
+      <ion-col class="deal-info-wrapper ion-activatable" size="8">
+        <ion-ripple-effect></ion-ripple-effect>
         <h4 class="related-deal-title">
           <span class="app-text-shell"> Make a payment </span>
         </h4>

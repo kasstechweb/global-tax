@@ -377,7 +377,7 @@ export class NewClientPage implements OnInit{
             if (JSON.parse(res)){
               this.children_dob = JSON.parse(res);
             }
-            
+
             // this.children_names.forEach(() => {
             //   this.add_delete_children(1);
             // });
