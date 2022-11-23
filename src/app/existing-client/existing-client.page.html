@@ -15,11 +15,23 @@
     <ion-list class="inputs-list" lines="full">
 
       <ion-item class="input-item">
-        <ion-input type="text" placeholder="Name" formControlName="name" clearInput autocapitalize="off"></ion-input>
+        <ion-input type="text" placeholder="First Name" formControlName="fname" clearInput autocapitalize="off"></ion-input>
       </ion-item>
       <div class="error-container">
-        <ng-container *ngFor="let validation of validation_messages.name">
-          <div class="error-message" *ngIf="signupForm.get('name').hasError(validation.type) && (signupForm.get('name').dirty || signupForm.get('name').touched)">
+        <ng-container *ngFor="let validation of validation_messages.fname">
+          <div class="error-message" *ngIf="signupForm.get('fname').hasError(validation.type) && (signupForm.get('fname').dirty || signupForm.get('fname').touched)">
+            <ion-icon name="information-circle-outline"></ion-icon>
+            <span>{{ validation.message }}</span>
+          </div>
+        </ng-container>
+      </div>
+
+      <ion-item class="input-item">
+        <ion-input type="text" placeholder="Last Name" formControlName="lname" clearInput autocapitalize="off"></ion-input>
+      </ion-item>
+      <div class="error-container">
+        <ng-container *ngFor="let validation of validation_messages.lname">
+          <div class="error-message" *ngIf="signupForm.get('lname').hasError(validation.type) && (signupForm.get('lname').dirty || signupForm.get('lname').touched)">
             <ion-icon name="information-circle-outline"></ion-icon>
             <span>{{ validation.message }}</span>
           </div>
@@ -56,6 +68,19 @@
       <div class="error-container">
         <ng-container *ngFor="let validation of validation_messages.company">
           <div class="error-message" *ngIf="signupForm.get('company').hasError(validation.type) && (signupForm.get('company').dirty || signupForm.get('company').touched)">
+
+            <ion-icon name="information-circle-outline"></ion-icon>
+            <span>{{ validation.message }}</span>
+          </div>
+        </ng-container>
+      </div>
+
+      <ion-item class="input-item">
+        <ion-input type="text" placeholder="Business Number" formControlName="bnumber" clearInput autocapitalize="off"></ion-input>
+      </ion-item>
+      <div class="error-container">
+        <ng-container *ngFor="let validation of validation_messages.bnumber">
+          <div class="error-message" *ngIf="signupForm.get('bnumber').hasError(validation.type) && (signupForm.get('bnumber').dirty || signupForm.get('bnumber').touched)">
 
             <ion-icon name="information-circle-outline"></ion-icon>
             <span>{{ validation.message }}</span>

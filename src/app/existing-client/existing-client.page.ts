@@ -38,11 +38,19 @@ export class ExistingClientPage implements OnInit {
       {type: 'required', message: 'Phone is required.'},
       { type: 'pattern', message: 'Enter a valid Phone number.' }
     ],
-    'name': [
+    'fname': [
+
+    ],
+    'lname': [
 
     ],
     'company': [
 
+    ],
+    'bnumber': [
+      { type: 'NotEqual', message: 'SIN must be 9 numbers.' },
+      { type: 'pattern', message: 'Enter a valid Business number.' }
+      // { type: 'maxLength', message: 'SIN must be 9 numbers.' }
     ],
     'msg': [
       { type: 'required', message: 'Message is required.' }
@@ -71,19 +79,41 @@ export class ExistingClientPage implements OnInit {
       'msg': new FormControl('', Validators.compose([
         Validators.required,
       ])),
-      'name': new FormControl('', Validators.compose([
+      'fname': new FormControl('', Validators.compose([
 
+      ])),
+      'lname': new FormControl('', Validators.compose([
+
+      ])),
+      'bnumber': new FormControl('', Validators.compose([
+
+        // Validators.maxLength(9),
+        // Validators.minLength(9),
+        this.isValidSINNumber.bind(this),
+        Validators.pattern('^[0-9]+$'),
       ])),
       // 'matching_passwords': this.matching_passwords_group
     });
   }
 
+  isValidSINNumber(fieldControl: FormControl) {
+    if(this.signupForm) {
+      if (fieldControl.value != null){
+        return fieldControl.value.toString().length >= 9 && fieldControl.value.toString().length <= 9 || fieldControl.value.toString().length == 0 ? null : {
+          NotEqual: true
+        };
+      }
+    }
+  }
+
   ngOnInit() {
     //check if values in storage
-    this.checkStorage('name');
+    this.checkStorage('fname');
+    this.checkStorage('lname');
     this.checkStorage('email');
     this.checkStorage('phone');
     this.checkStorage('company');
+    this.checkStorage('bnumber');
     // this.signupForm.controls['name'].setValue('test');
   }
 
@@ -99,10 +129,12 @@ export class ExistingClientPage implements OnInit {
       let files = this.fileField.getFiles();
 
       let formData = new FormData();
-      formData.append('name', this.signupForm.value['name']);
+      formData.append('fname', this.signupForm.value['fname']);
+      formData.append('lname', this.signupForm.value['lname']);
       formData.append('email', this.signupForm.value['email']);
       formData.append('phone', this.signupForm.value['phone']);
       formData.append('company', this.signupForm.value['company']);
+      formData.append('bnumber', this.signupForm.value['bnumber']);
       formData.append('msg', this.signupForm.value['msg']);
 
       files.forEach((file) => {
@@ -110,11 +142,12 @@ export class ExistingClientPage implements OnInit {
       });
 
       // store user data locally
-      this.storage.setStorageData('name', this.signupForm.value['name']);
+      this.storage.setStorageData('fname', this.signupForm.value['fname']);
+      this.storage.setStorageData('lname', this.signupForm.value['lname']);
       this.storage.setStorageData('email', this.signupForm.value['email']);
       this.storage.setStorageData('phone', this.signupForm.value['phone']);
       this.storage.setStorageData('company', this.signupForm.value['company']);
-
+      this.storage.setStorageData('bnumber', this.signupForm.value['bnumber']);
       // POST formData to Server
 
       // console.log(formData.getAll('files[]'));

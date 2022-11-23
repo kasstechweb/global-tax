@@ -27,7 +27,7 @@ try {
     $mail->Port       = 587;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
     //Recipients
-    $mail->setFrom('gtaxapp@employerservice.ca'); 
+    $mail->setFrom('gtaxapp@employerservice.ca');
     $mail->addAddress('kasstechweb@gmail.com');               //Add a recipient
     $mail->addReplyTo($_POST['email']);
 
@@ -45,7 +45,7 @@ try {
 
                 if (move_uploaded_file($tmp_name, $uploadfile)) {
                     $mail->addAttachment($uploadfile);
-                } 
+                }
             }
         }
     }else {
@@ -64,7 +64,7 @@ try {
  	<meta name="format-detection" content="telephone=no"/>
 
 	<style>
-/* Reset styles */ 
+/* Reset styles */
 body { margin: 0; padding: 0; min-width: 100%; width: 100% !important; height: 100% !important;}
 body, table, td, div, p, a { -webkit-font-smoothing: antialiased; text-size-adjust: 100%; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; line-height: 100%; }
 table, td { mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-collapse: collapse !important; border-spacing: 0; }
@@ -73,12 +73,12 @@ img { border: 0; line-height: 100%; outline: none; text-decoration: none; -ms-in
 .ReadMsgBody { width: 100%; } .ExternalClass { width: 100%; }
 .ExternalClass, .ExternalClass p, .ExternalClass span, .ExternalClass font, .ExternalClass td, .ExternalClass div { line-height: 100%; }
 
-/* Rounded corners for advanced mail clients only */ 
+/* Rounded corners for advanced mail clients only */
 @media all and (min-width: 560px) {
 	.container { border-radius: 8px; -webkit-border-radius: 8px; -moz-border-radius: 8px; -khtml-border-radius: 8px; }
 }
 
-/* Set color for auto links (addresses, dates, etc.) */ 
+/* Set color for auto links (addresses, dates, etc.) */
 a, a:hover {
 	color: #FFFFFF!important;
 }
@@ -91,7 +91,7 @@ a, a:hover {
  	</style>
 
 	<!-- MESSAGE SUBJECT -->
-	<title>Responsive HTML email templates</title>
+	<title>New message from Global Tax App</title>
 
 </head>
 
@@ -142,44 +142,53 @@ a, a:hover {
 	<!-- Set text color and font family ("sans-serif" or "Georgia, serif"). Duplicate all text styles in links, including line-height -->
 	<tr>
 		<td align="center" valign="top" style="border-collapse: collapse; border-spacing: 0; margin: 0; padding: 0; padding-left: 6.25%; padding-right: 6.25%; width: 87.5%; font-size: 17px; font-weight: 400; line-height: 160%;
-			padding-top: 15px; 
+			padding-top: 15px;
 			color: #FFFFFF;
 			font-family: sans-serif;" class="paragraph">
-Name:&nbsp;'. $_POST['name'] .'
-    
+First Name:&nbsp;'. $_POST['fname'] .'&nbsp;&nbsp;Last Name:&nbsp;'. $_POST['lname'] .'
+
 		</td>
-    
+
 	</tr>
   <tr>
 		<td align="center" valign="top" style="border-collapse: collapse; border-spacing: 0; margin: 0; padding: 0; padding-left: 6.25%; padding-right: 6.25%; width: 87.5%; font-size: 17px; font-weight: 400; line-height: 160%;
 			color: #FFFFFF;
 			font-family: sans-serif;" class="paragraph">
 Email:&nbsp;'. $_POST['email'] .'
-    
+
 		</td>
-    
+
 	</tr>
    <tr>
 		<td align="center" valign="top" style="border-collapse: collapse; border-spacing: 0; margin: 0; padding: 0; padding-left: 6.25%; padding-right: 6.25%; width: 87.5%; font-size: 17px; font-weight: 400; line-height: 160%;
 			color: #FFFFFF;
 			font-family: sans-serif;" class="paragraph">
 Phone:&nbsp;'. $_POST['phone'] .'
-    
+
 		</td>
-    
+
 	</tr>
   <tr>
 		<td align="center" valign="top" style="border-collapse: collapse; border-spacing: 0; margin: 0; padding: 0; padding-left: 6.25%; padding-right: 6.25%; width: 87.5%; font-size: 17px; font-weight: 400; line-height: 160%;
 			color: #FFFFFF;
 			font-family: sans-serif;" class="paragraph">
 Company:&nbsp;'. $comp .'
-    
+
 		</td>
-    
+
+	</tr>
+	<tr>
+		<td align="center" valign="top" style="border-collapse: collapse; border-spacing: 0; margin: 0; padding: 0; padding-left: 6.25%; padding-right: 6.25%; width: 87.5%; font-size: 17px; font-weight: 400; line-height: 160%;
+			color: #FFFFFF;
+			font-family: sans-serif;" class="paragraph">
+Business Number:&nbsp;'. $_POST['bnumber'] .'
+
+		</td>
+
 	</tr>
   <tr>
     <td align="left" valign="top" style="border-collapse: collapse; border-spacing: 0; margin: 0; padding: 0; padding-left: 6.25%; padding-right: 6.25%; width: 87.5%; font-size: 17px; font-weight: 400; line-height: 160%;
-			padding-top: 15px; 
+			padding-top: 15px;
 			color: #FFFFFF;
 			font-family: sans-serif;" class="paragraph">Message:&nbsp;'. $_POST['msg'] .'</td>
   </tr>
@@ -211,7 +220,7 @@ Company:&nbsp;'. $comp .'
 			color: #828999;
 			font-family: sans-serif;" class="footer">
 
-				Time&nbsp;:&nbsp;'. date('l jS \of F Y h:i:s A') .' 
+				Time&nbsp;:&nbsp;'. date('l jS \of F Y h:i:s A') .'
 
 		</td>
 	</tr>
@@ -224,7 +233,7 @@ Company:&nbsp;'. $comp .'
 
 </body>
 </html>';
-        
+
     $mail->Body    = $body;
     $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
 
@@ -239,12 +248,12 @@ Company:&nbsp;'. $comp .'
                 unlink($uploadfile);
             }
         }
-        
+
     }
     $data =  'Message has been sent';
 } catch (Exception $e) {
     $data = "Message could not be sent. Error: {$mail->ErrorInfo}";
-}    
+}
     echo json_encode(array('_body' => $data));
 }else {
     echo json_encode(array('_body' => 'no post'));
