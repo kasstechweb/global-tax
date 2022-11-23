@@ -39,10 +39,10 @@ export class ExistingClientPage implements OnInit {
       { type: 'pattern', message: 'Enter a valid Phone number.' }
     ],
     'fname': [
-
+      { type: 'pattern', message: 'Enter a valid first name.' }
     ],
     'lname': [
-
+      { type: 'pattern', message: 'Enter a valid last name.' }
     ],
     'company': [
 
@@ -80,10 +80,10 @@ export class ExistingClientPage implements OnInit {
         Validators.required,
       ])),
       'fname': new FormControl('', Validators.compose([
-
+        Validators.pattern('^[a-zA-Z]+$')
       ])),
       'lname': new FormControl('', Validators.compose([
-
+        Validators.pattern('^[a-zA-Z]+$')
       ])),
       'bnumber': new FormControl('', Validators.compose([
 

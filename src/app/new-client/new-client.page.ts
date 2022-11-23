@@ -43,9 +43,11 @@ export class NewClientPage implements OnInit{
     ],
     'fname': [
       { type: 'required', message: 'First Name is required.' },
+      { type: 'pattern', message: 'Enter a valid first name.' }
     ],
     'lname': [
       { type: 'required', message: 'Last Name is required.' },
+      { type: 'pattern', message: 'Enter a valid last name.' }
     ],
     'company': [
 
@@ -112,9 +114,11 @@ export class NewClientPage implements OnInit{
     ])),
     'fname': new FormControl('', Validators.compose([
       Validators.required,
+      Validators.pattern('^[a-zA-Z]+$')
     ])),
     'lname': new FormControl('', Validators.compose([
       Validators.required,
+      Validators.pattern('^[a-zA-Z]+$')
     ])),
     'spouse_dob': new FormControl('', Validators.compose([
       Validators.required,
@@ -148,7 +152,7 @@ export class NewClientPage implements OnInit{
 
         // Validators.maxLength(9),
         // Validators.minLength(9),
-        this.isValidSINNumber.bind(this),
+        this.isValidBNumber.bind(this),
         Validators.pattern('^[0-9]+$'),
       ])),
       // 'matching_passwords': this.matching_passwords_group
@@ -159,6 +163,16 @@ export class NewClientPage implements OnInit{
     if(this.newClientForm) {
       if (fieldControl.value != null){
         return fieldControl.value.toString().length >= 9 && fieldControl.value.toString().length <= 9 ? null : {
+          NotEqual: true
+        };
+      }
+    }
+  }
+
+  isValidBNumber(fieldControl: FormControl) {
+    if(this.newClientForm) {
+      if (fieldControl.value != null){
+        return fieldControl.value.toString().length >= 9 && fieldControl.value.toString().length <= 9 || fieldControl.value.toString().length == 0 ? null : {
           NotEqual: true
         };
       }
