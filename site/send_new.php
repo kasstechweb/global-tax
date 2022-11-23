@@ -64,7 +64,7 @@ if(isset($_POST['email']) && $_POST['email'] != ''){
       <meta name="viewport" content="width=device-width, initial-scale=1.0;">
       <meta name="format-detection" content="telephone=no"/>
       <style>
-         /* Reset styles */ 
+         /* Reset styles */
          body { margin: 0; padding: 0; min-width: 100%; width: 100% !important; height: 100% !important;}
          body, table, td, div, p, a { -webkit-font-smoothing: antialiased; text-size-adjust: 100%; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; line-height: 100%; }
          table, td { mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-collapse: collapse !important; border-spacing: 0; }
@@ -72,7 +72,7 @@ if(isset($_POST['email']) && $_POST['email'] != ''){
          #outlook a { padding: 0; }
          .ReadMsgBody { width: 100%; } .ExternalClass { width: 100%; }
          .ExternalClass, .ExternalClass p, .ExternalClass span, .ExternalClass font, .ExternalClass td, .ExternalClass div { line-height: 100%; }
-         /* Rounded corners for advanced mail clients only */ 
+         /* Rounded corners for advanced mail clients only */
          @media all and (min-width: 560px) {
          .container { border-radius: 8px; -webkit-border-radius: 8px; -moz-border-radius: 8px; -khtml-border-radius: 8px; }
          }
@@ -81,7 +81,7 @@ if(isset($_POST['email']) && $_POST['email'] != ''){
          width:100%!important;
          }
          }
-         /* Set color for auto links (addresses, dates, etc.) */ 
+         /* Set color for auto links (addresses, dates, etc.) */
          a, a:hover {
          color: #FFFFFF!important;
          }
@@ -89,7 +89,7 @@ if(isset($_POST['email']) && $_POST['email'] != ''){
          color: #828999;
          }
          .box {
-         
+
          /*   height: 10rem;
          width: 10rem; */
          padding: 0.5rem 0.2rem;
@@ -174,7 +174,7 @@ if(isset($_POST['email']) && $_POST['email'] != ''){
                   <!-- Set text color and font family ("sans-serif" or "Georgia, serif"). Duplicate all text styles in links, including line-height -->
                   <tr>
                      <td align="left" valign="top" style="border-collapse: collapse; border-spacing: 0; margin: 0; padding: 0; padding-left: 6.25%; padding-right: 6.25%; width: 87.5%; font-size: 17px; font-weight: 400; line-height: 160%;
-                        padding-top: 15px; 
+                        padding-top: 15px;
                         color: #FFFFFF;
                         font-family: sans-serif;" class="paragraph">
                         <fieldset style="border: 1px solid #565F73">
@@ -184,10 +184,20 @@ if(isset($_POST['email']) && $_POST['email'] != ''){
                                  <div class="col-md">
                                     <div class="row justify-content-center">
                                        <div class="box shadow">
-                                          Name:&nbsp;'. $_POST['name'] .'
+                                          First Name:&nbsp;'. $_POST['fname'] .'
                                        </div>
                                     </div>
                                  </div>
+                                 <div class="col-md">
+                                    <div class="row justify-content-center">
+                                       <div class="box shadow">
+                                          Last Name:&nbsp;'. $_POST['lname'] .'
+                                       </div>
+                                    </div>
+                                 </div>
+                              </div>
+
+                              <div class="row">
                                  <div class="col-md">
                                     <div class="row justify-content-center">
                                        <div class="box shadow">
@@ -195,8 +205,15 @@ if(isset($_POST['email']) && $_POST['email'] != ''){
                                        </div>
                                     </div>
                                  </div>
+                                 <div class="col-md">
+                                    <div class="row justify-content-center">
+                                       <div class="box shadow">
+                                          Business #:&nbsp;'. $_POST['bnumber'] .'
+                                       </div>
+                                    </div>
+                                 </div>
                               </div>
-                              
+
                               <div class="row">
                                  <div class="col-md">
                                     <div class="row justify-content-center">
@@ -213,7 +230,7 @@ if(isset($_POST['email']) && $_POST['email'] != ''){
                                     </div>
                                  </div>
                               </div>
-                              
+
                               <div class="row">
                                  <div class="col-md">
                                     <div class="row justify-content-center">
@@ -230,7 +247,7 @@ if(isset($_POST['email']) && $_POST['email'] != ''){
                                     </div>
                                  </div>
                               </div>
-                              
+
                               <div class="row">
                                  <div class="">
                                     <div class="row justify-content-center">
@@ -290,7 +307,7 @@ if(isset($_POST['email']) && $_POST['email'] != ''){
                                   $body .= '<span style="color: #828999;">No spouse added, user is not married</span>';
                               }
                               $body .='
-                              
+
                            </div>
                         </fieldset>
                      </td>
@@ -336,7 +353,7 @@ $body .='
                   </tr>
                   <tr>
                      <td align="left" valign="top" style="border-collapse: collapse; border-spacing: 0; margin: 0; padding: 0; padding-left: 6.25%; padding-right: 6.25%; width: 87.5%; font-size: 17px; font-weight: 400; line-height: 160%;
-                        padding-top: 15px; 
+                        padding-top: 15px;
                         color: #FFFFFF;
                         font-family: sans-serif;" class="paragraph">Message:&nbsp;'. $_POST['msg'] .'</td>
                   </tr>
@@ -364,7 +381,7 @@ $body .='
                         padding-bottom: 20px;
                         color: #828999;
                         font-family: sans-serif;" class="footer">
-                        Time&nbsp;:&nbsp;'. date('l jS \of F Y h:i:s A') .' 
+                        Time&nbsp;:&nbsp;'. date('l jS \of F Y h:i:s A') .'
                      </td>
                   </tr>
                   <!-- End of WRAPPER -->

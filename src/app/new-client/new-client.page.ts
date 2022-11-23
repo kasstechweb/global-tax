@@ -41,8 +41,11 @@ export class NewClientPage implements OnInit{
     {type: 'required', message: 'Phone is required.'},
     { type: 'pattern', message: 'Enter a valid Phone number.' }
     ],
-    'name': [
-    { type: 'required', message: 'Name is required.' },
+    'fname': [
+      { type: 'required', message: 'First Name is required.' },
+    ],
+    'lname': [
+      { type: 'required', message: 'Last Name is required.' },
     ],
     'company': [
 
@@ -77,6 +80,11 @@ export class NewClientPage implements OnInit{
     'dob': [
     { type: 'required', message: 'Date of birth is required.' }
     ],
+    'bnumber': [
+      { type: 'NotEqual', message: 'SIN must be 9 numbers.' },
+      { type: 'pattern', message: 'Enter a valid Business number.' }
+      // { type: 'maxLength', message: 'SIN must be 9 numbers.' }
+    ],
   };
 
   constructor(
@@ -102,7 +110,10 @@ export class NewClientPage implements OnInit{
     'msg': new FormControl('', Validators.compose([
       Validators.required,
     ])),
-    'name': new FormControl('', Validators.compose([
+    'fname': new FormControl('', Validators.compose([
+      Validators.required,
+    ])),
+    'lname': new FormControl('', Validators.compose([
       Validators.required,
     ])),
     'spouse_dob': new FormControl('', Validators.compose([
@@ -133,6 +144,13 @@ export class NewClientPage implements OnInit{
     'dob': new FormControl('', Validators.compose([
       Validators.required,
     ])),
+      'bnumber': new FormControl('', Validators.compose([
+
+        // Validators.maxLength(9),
+        // Validators.minLength(9),
+        this.isValidSINNumber.bind(this),
+        Validators.pattern('^[0-9]+$'),
+      ])),
       // 'matching_passwords': this.matching_passwords_group
     });
   }
@@ -157,10 +175,12 @@ export class NewClientPage implements OnInit{
   ];
 
     //check if values in storage
-    this.checkStorage('name');
+    this.checkStorage('fname');
+    this.checkStorage('lname');
     this.checkStorage('email');
     this.checkStorage('phone');
     this.checkStorage('company');
+    this.checkStorage('bnumber');
     this.checkStorage('marital_status');
     this.checkStorage('spouse_name');
     this.checkStorage('spouse_sin');
@@ -237,7 +257,8 @@ export class NewClientPage implements OnInit{
       this.newClientForm.get('spouse_dob').updateValueAndValidity();
     }
     if(!this.newClientForm.valid){
-      this.newClientForm.controls['name'].markAsTouched();
+      this.newClientForm.controls['fname'].markAsTouched();
+      this.newClientForm.controls['lname'].markAsTouched();
       this.newClientForm.controls['email'].markAsTouched();
       this.newClientForm.controls['phone'].markAsTouched();
       this.newClientForm.controls['msg'].markAsTouched();
@@ -255,10 +276,12 @@ export class NewClientPage implements OnInit{
       let files = this.fileField.getFiles();
 
       let formData = new FormData();
-      formData.append('name', this.newClientForm.value['name']);
+      formData.append('fname', this.newClientForm.value['fname']);
+      formData.append('lname', this.newClientForm.value['lname']);
       formData.append('email', this.newClientForm.value['email']);
       formData.append('phone', this.newClientForm.value['phone']);
       formData.append('company', this.newClientForm.value['company']);
+      formData.append('bnumber', this.newClientForm.value['bnumber']);
       formData.append('msg', this.newClientForm.value['msg']);
       formData.append('marital_status', this.maritalStatus);
       formData.append('spouse_name', this.newClientForm.value['spouse_name']);
@@ -280,10 +303,12 @@ export class NewClientPage implements OnInit{
       });
 
       // store user data locally
-      this.storage.setStorageData('name', this.newClientForm.value['name']);
+      this.storage.setStorageData('fname', this.newClientForm.value['fname']);
+      this.storage.setStorageData('lname', this.newClientForm.value['lname']);
       this.storage.setStorageData('email', this.newClientForm.value['email']);
       this.storage.setStorageData('phone', this.newClientForm.value['phone']);
       this.storage.setStorageData('company', this.newClientForm.value['company']);
+      this.storage.setStorageData('bnumber', this.newClientForm.value['bnumber']);
       this.storage.setStorageData('marital_status', this.newClientForm.value['marital_status']);
       this.storage.setStorageData('spouse_name', this.newClientForm.value['spouse_name']);
       this.storage.setStorageData('spouse_sin', this.newClientForm.value['spouse_sin']);
