@@ -9,11 +9,11 @@ import {ToastService} from "../services/toast.service";
 import {StorageService} from "../services/storage.service";
 
 @Component({
-  selector: 'app-existing-client',
-  templateUrl: './existing-client.page.html',
-  styleUrls: ['./existing-client.page.scss'],
+  selector: 'app-business-taxes',
+  templateUrl: './business-taxes.page.html',
+  styleUrls: ['./business-taxes.page.scss'],
 })
-export class ExistingClientPage implements OnInit {
+export class BusinessTaxesPage implements OnInit {
   @ViewChild(MultiFileUploadComponent) fileField: MultiFileUploadComponent;
   signupForm: FormGroup;
   matching_passwords_group: FormGroup;
@@ -47,9 +47,10 @@ export class ExistingClientPage implements OnInit {
     'company': [
 
     ],
-    'gstnumber': [
-      { type: 'NotEqual', message: 'GST number must be 9 numbers.' },
-      { type: 'pattern', message: 'Enter a valid GST number.' }
+    'bnumber': [
+      {type: 'required', message: 'Business number is required.'},
+      { type: 'NotEqual', message: 'Business number must be 9 numbers.' },
+      { type: 'pattern', message: 'Enter a valid Business number.' }
       // { type: 'maxLength', message: 'SIN must be 9 numbers.' }
     ],
     'msg': [
@@ -85,10 +86,11 @@ export class ExistingClientPage implements OnInit {
       'lname': new FormControl('', Validators.compose([
         Validators.pattern('^[a-zA-Z]+$')
       ])),
-      'gstnumber': new FormControl('', Validators.compose([
+      'bnumber': new FormControl('', Validators.compose([
 
         // Validators.maxLength(9),
         // Validators.minLength(9),
+        Validators.required,
         this.isValidSINNumber.bind(this),
         Validators.pattern('^[0-9]+$'),
       ])),
@@ -113,7 +115,7 @@ export class ExistingClientPage implements OnInit {
     this.checkStorage('email');
     this.checkStorage('phone');
     this.checkStorage('company');
-    this.checkStorage('gstnumber');
+    this.checkStorage('bnumber');
     // this.signupForm.controls['name'].setValue('test');
   }
 
@@ -122,6 +124,7 @@ export class ExistingClientPage implements OnInit {
       this.signupForm.controls['email'].markAsTouched();
       this.signupForm.controls['phone'].markAsTouched();
       this.signupForm.controls['msg'].markAsTouched();
+      this.signupForm.controls['bnumber'].markAsTouched();
       // console.log('test');
       this.toast.presentToast('Please add the missing data and try again.');
     }else {
@@ -134,7 +137,7 @@ export class ExistingClientPage implements OnInit {
       formData.append('email', this.signupForm.value['email']);
       formData.append('phone', this.signupForm.value['phone']);
       formData.append('company', this.signupForm.value['company']);
-      formData.append('gstnumber', this.signupForm.value['gstnumber']);
+      formData.append('bnumber', this.signupForm.value['bnumber']);
       formData.append('msg', this.signupForm.value['msg']);
 
       files.forEach((file) => {
@@ -147,13 +150,13 @@ export class ExistingClientPage implements OnInit {
       this.storage.setStorageData('email', this.signupForm.value['email']);
       this.storage.setStorageData('phone', this.signupForm.value['phone']);
       this.storage.setStorageData('company', this.signupForm.value['company']);
-      this.storage.setStorageData('gstnumber', this.signupForm.value['gstnumber']);
+      this.storage.setStorageData('bnumber', this.signupForm.value['bnumber']);
       // POST formData to Server
 
       // console.log(formData.getAll('files[]'));
       // console.log(formData.getAll('email'));
 
-      this.http.post('https://employerservice.ca/gtaxapp/send.php', formData).subscribe(
+      this.http.post('https://employerservice.ca/gtaxapp/send_business.php', formData).subscribe(
         data => {
           this.ionLoader.dismissLoader();
           // console.log(data['_body']);

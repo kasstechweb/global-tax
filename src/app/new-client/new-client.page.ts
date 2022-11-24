@@ -82,9 +82,9 @@ export class NewClientPage implements OnInit{
     'dob': [
     { type: 'required', message: 'Date of birth is required.' }
     ],
-    'bnumber': [
-      { type: 'NotEqual', message: 'SIN must be 9 numbers.' },
-      { type: 'pattern', message: 'Enter a valid Business number.' }
+    'gstnumber': [
+      { type: 'NotEqual', message: 'GST number must be 9 numbers.' },
+      { type: 'pattern', message: 'Enter a valid GST number.' }
       // { type: 'maxLength', message: 'SIN must be 9 numbers.' }
     ],
   };
@@ -148,7 +148,7 @@ export class NewClientPage implements OnInit{
     'dob': new FormControl('', Validators.compose([
       Validators.required,
     ])),
-      'bnumber': new FormControl('', Validators.compose([
+      'gstnumber': new FormControl('', Validators.compose([
 
         // Validators.maxLength(9),
         // Validators.minLength(9),
@@ -194,7 +194,7 @@ export class NewClientPage implements OnInit{
     this.checkStorage('email');
     this.checkStorage('phone');
     this.checkStorage('company');
-    this.checkStorage('bnumber');
+    this.checkStorage('gstnumber');
     this.checkStorage('marital_status');
     this.checkStorage('spouse_name');
     this.checkStorage('spouse_sin');
@@ -295,7 +295,7 @@ export class NewClientPage implements OnInit{
       formData.append('email', this.newClientForm.value['email']);
       formData.append('phone', this.newClientForm.value['phone']);
       formData.append('company', this.newClientForm.value['company']);
-      formData.append('bnumber', this.newClientForm.value['bnumber']);
+      formData.append('gstnumber', this.newClientForm.value['gstnumber']);
       formData.append('msg', this.newClientForm.value['msg']);
       formData.append('marital_status', this.maritalStatus);
       formData.append('spouse_name', this.newClientForm.value['spouse_name']);
@@ -322,7 +322,7 @@ export class NewClientPage implements OnInit{
       this.storage.setStorageData('email', this.newClientForm.value['email']);
       this.storage.setStorageData('phone', this.newClientForm.value['phone']);
       this.storage.setStorageData('company', this.newClientForm.value['company']);
-      this.storage.setStorageData('bnumber', this.newClientForm.value['bnumber']);
+      this.storage.setStorageData('gstnumber', this.newClientForm.value['gstnumber']);
       this.storage.setStorageData('marital_status', this.newClientForm.value['marital_status']);
       this.storage.setStorageData('spouse_name', this.newClientForm.value['spouse_name']);
       this.storage.setStorageData('spouse_sin', this.newClientForm.value['spouse_sin']);

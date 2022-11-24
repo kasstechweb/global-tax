@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="personal-taxes"></ion-back-button>
     </ion-buttons>
-    <ion-title>EXISTING CLIENT</ion-title>
+    <ion-title>BUSINESS TAXES</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -76,11 +76,11 @@
       </div>
 
       <ion-item class="input-item">
-        <ion-input type="text" placeholder="GST number" formControlName="gstnumber" clearInput autocapitalize="off"></ion-input>
+        <ion-input type="text" placeholder="Business Number" formControlName="bnumber" clearInput autocapitalize="off"></ion-input>
       </ion-item>
       <div class="error-container">
-        <ng-container *ngFor="let validation of validation_messages.gstnumber">
-          <div class="error-message" *ngIf="signupForm.get('gstnumber').hasError(validation.type) && (signupForm.get('gstnumber').dirty || signupForm.get('gstnumber').touched)">
+        <ng-container *ngFor="let validation of validation_messages.bnumber">
+          <div class="error-message" *ngIf="signupForm.get('bnumber').hasError(validation.type) && (signupForm.get('bnumber').dirty || signupForm.get('bnumber').touched)">
 
             <ion-icon name="information-circle-outline"></ion-icon>
             <span>{{ validation.message }}</span>

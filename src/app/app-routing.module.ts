@@ -27,6 +27,10 @@ const routes: Routes = [
     path: 'payment',
     loadChildren: () => import('./payment/payment.module').then( m => m.PaymentPageModule)
   },
+  {
+    path: 'business-taxes',
+    loadChildren: () => import('./business-taxes/business-taxes.module').then( m => m.BusinessTaxesPageModule)
+  },
 ];
 @NgModule({
   imports: [

@@ -208,7 +208,7 @@ if(isset($_POST['email']) && $_POST['email'] != ''){
                                  <div class="col-md">
                                     <div class="row justify-content-center">
                                        <div class="box shadow">
-                                          Business #:&nbsp;'. $_POST['bnumber'] .'
+                                          GST #:&nbsp;'. $_POST['gstnumber'] .'
                                        </div>
                                     </div>
                                  </div>

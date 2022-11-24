@@ -86,11 +86,11 @@
       </ion-list>
 
       <ion-item class="input-item">
-        <ion-input type="text" placeholder="Business Number" formControlName="bnumber" clearInput autocapitalize="off"></ion-input>
+        <ion-input type="text" placeholder="GST Number" formControlName="gstnumber" clearInput autocapitalize="off"></ion-input>
       </ion-item>
       <div class="error-container">
         <ng-container *ngFor="let validation of validation_messages.bnumber">
-          <div class="error-message" *ngIf="newClientForm.get('bnumber').hasError(validation.type) && (newClientForm.get('bnumber').dirty || newClientForm.get('bnumber').touched)">
+          <div class="error-message" *ngIf="newClientForm.get('gstnumber').hasError(validation.type) && (newClientForm.get('gstnumber').dirty || newClientForm.get('gstnumber').touched)">
 
             <ion-icon name="information-circle-outline"></ion-icon>
             <span>{{ validation.message }}</span>
