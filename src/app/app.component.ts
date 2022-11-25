@@ -41,11 +41,11 @@ export class AppComponent {
     // this.dataService.setData('name', 'testName');
     // this.storage.clearStorage();
     // this.storage.setStorageData('name', 'testtttt');
-    this.storage.getStorageData('name').then(
+    this.storage.getStorageData('fname').then(
       res => {
         if (res){
-          this.dataService.setData('name', JSON.parse(res));
-          console.log(res);
+          this.dataService.setData('fname', JSON.parse(res));
+          // console.log(res);
         }
       });
   }

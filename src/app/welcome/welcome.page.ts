@@ -15,13 +15,11 @@ export class WelcomePage implements OnInit {
     private storage: StorageService,
   ) {
     // this.name = this.dataservice.getData('name');
-    this.storage.getStorageData('name').then(
+    this.storage.getStorageData('fname').then(
       res => {
         if (res){
           this.name = JSON.parse(res);
-          console.log(res);
-        }else {
-          console.log('error read from storage')
+          // console.log(res);
         }
       });
   }

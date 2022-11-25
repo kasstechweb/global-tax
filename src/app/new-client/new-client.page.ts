@@ -232,7 +232,7 @@ export class NewClientPage implements OnInit{
         min: 1,
           max: 20,
           handler: () => {
-          console.log()
+          // console.log()
         }
     }],
       buttons: [
@@ -335,13 +335,13 @@ export class NewClientPage implements OnInit{
       this.storage.setStorageData('children_dob', this.children_dob);
       // POST formData to Server
 
-      console.log(this.children_names);
-      console.log(formData.getAll('children_names'));
+      // console.log(this.children_names);
+      // console.log(formData.getAll('children_names'));
 
       this.http.post('https://employerservice.ca/gtaxapp/send_new.php', formData).subscribe(
       data => {
         this.ionLoader.dismissLoader();
-        console.log(data['_body']);
+        // console.log(data['_body']);
         this.toast.presentToast(data['_body']);
         if(data['_body'] == 'Message has been sent'){
           // this.newClientForm.reset();
