@@ -39,13 +39,15 @@ export class BusinessTaxesPage implements OnInit {
       { type: 'pattern', message: 'Enter a valid Phone number.' }
     ],
     'fname': [
+      {type: 'required', message: 'First name is required.'},
       { type: 'pattern', message: 'Enter a valid first name.' }
     ],
     'lname': [
+      {type: 'required', message: 'Last name is required.'},
       { type: 'pattern', message: 'Enter a valid last name.' }
     ],
     'company': [
-
+      {type: 'required', message: 'Company is required.'},
     ],
     'bnumber': [
       {type: 'required', message: 'Business number is required.'},
@@ -75,15 +77,17 @@ export class BusinessTaxesPage implements OnInit {
         Validators.pattern('^[0-9_.+-]+$'),
       ])),
       'company': new FormControl('', Validators.compose([
-
+        Validators.required,
       ])),
       'msg': new FormControl('', Validators.compose([
         Validators.required,
       ])),
       'fname': new FormControl('', Validators.compose([
+        Validators.required,
         Validators.pattern('^[a-zA-Z]+$')
       ])),
       'lname': new FormControl('', Validators.compose([
+        Validators.required,
         Validators.pattern('^[a-zA-Z]+$')
       ])),
       'bnumber': new FormControl('', Validators.compose([
@@ -121,6 +125,8 @@ export class BusinessTaxesPage implements OnInit {
 
   sendMessage(): void {
     if(!this.signupForm.valid){
+      this.signupForm.controls['fname'].markAsTouched();
+      this.signupForm.controls['lname'].markAsTouched();
       this.signupForm.controls['email'].markAsTouched();
       this.signupForm.controls['phone'].markAsTouched();
       this.signupForm.controls['msg'].markAsTouched();
