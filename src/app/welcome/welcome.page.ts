@@ -33,4 +33,8 @@ export class WelcomePage implements OnInit {
     await Browser.open({ url: 'https://employerservice.ca/gtaxapp/payment/' });
   }
 
+  async openBooking() {
+    await Browser.open({ url: 'https://www.global-tax.ca/' });
+  }
+
 }
