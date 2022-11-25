@@ -24,7 +24,7 @@
 
       <ion-list class="inputs-list" lines="full">
         <ion-item class="input-item">
-          <ion-input type="text" placeholder="First Name" formControlName="fname" clearInput autocapitalize="off"></ion-input>
+          <ion-input type="text" placeholder="First Name*" formControlName="fname" clearInput autocapitalize="off"></ion-input>
         </ion-item>
         <div class="error-container">
           <ng-container *ngFor="let validation of validation_messages.fname">
@@ -36,7 +36,7 @@
         </div>
 
           <ion-item class="input-item">
-            <ion-input type="text" placeholder="Last Name" formControlName="lname" clearInput autocapitalize="off"></ion-input>
+            <ion-input type="text" placeholder="Last Name*" formControlName="lname" clearInput autocapitalize="off"></ion-input>
           </ion-item>
           <div class="error-container">
             <ng-container *ngFor="let validation of validation_messages.lname">
@@ -73,7 +73,7 @@
         </div>
 
         <ion-item class="input-item">
-          <ion-input type="text" placeholder="Company" formControlName="company" clearInput autocapitalize="off"></ion-input>
+          <ion-input type="text" placeholder="Company (optional)" formControlName="company" clearInput autocapitalize="off"></ion-input>
         </ion-item>
         <div class="error-container">
           <ng-container *ngFor="let validation of validation_messages.company">
@@ -128,7 +128,7 @@
           <ion-input type="text" placeholder="Address*" formControlName="address" clearInput autocapitalize="off"></ion-input>
         </ion-item>
         <div class="error-container">
-          <ng-container *ngFor="let validation of validation_messages.company">
+          <ng-container *ngFor="let validation of validation_messages.address">
             <div class="error-message" *ngIf="newClientForm.get('address').hasError(validation.type) && (newClientForm.get('address').dirty || newClientForm.get('address').touched)">
               <ion-icon name="information-circle-outline"></ion-icon>
               <span>{{ validation.message }}</span>

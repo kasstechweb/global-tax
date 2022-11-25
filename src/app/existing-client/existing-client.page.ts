@@ -185,8 +185,6 @@ export class ExistingClientPage implements OnInit {
           this.signupForm.controls[key].setValue(JSON.parse(res));
           // console.log(res.key);
           // console.log(res);
-        }else {
-          console.log('error read from storage')
         }
       });
   }

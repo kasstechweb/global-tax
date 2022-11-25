@@ -46,8 +46,6 @@ export class AppComponent {
         if (res){
           this.dataService.setData('name', JSON.parse(res));
           console.log(res);
-        }else {
-          console.log('error read from storage')
         }
       });
   }

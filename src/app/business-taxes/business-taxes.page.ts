@@ -130,6 +130,7 @@ export class BusinessTaxesPage implements OnInit {
       this.signupForm.controls['email'].markAsTouched();
       this.signupForm.controls['phone'].markAsTouched();
       this.signupForm.controls['msg'].markAsTouched();
+      this.signupForm.controls['company'].markAsTouched();
       this.signupForm.controls['bnumber'].markAsTouched();
       // console.log('test');
       this.toast.presentToast('Please add the missing data and try again.');
@@ -188,8 +189,6 @@ export class BusinessTaxesPage implements OnInit {
           this.signupForm.controls[key].setValue(JSON.parse(res));
           // console.log(res.key);
           // console.log(res);
-        }else {
-          console.log('error read from storage')
         }
       });
   }
