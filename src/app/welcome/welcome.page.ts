@@ -35,4 +35,8 @@ export class WelcomePage implements OnInit {
     await Browser.open({ url: 'https://www.global-tax.ca/' });
   }
 
+  async openPrivacy() {
+    await Browser.open({ url: 'https://employerservice.ca/gtaxapp/privacy.html' });
+  }
+
 }
