@@ -83,11 +83,11 @@ export class ExistingClientPage implements OnInit {
       ])),
       'fname': new FormControl('', Validators.compose([
         Validators.required,
-        Validators.pattern('^[a-zA-Z]+$')
+        Validators.pattern('^[a-zA-Z\\s]+$')
       ])),
       'lname': new FormControl('', Validators.compose([
         Validators.required,
-        Validators.pattern('^[a-zA-Z]+$')
+        Validators.pattern('^[a-zA-Z\\s]+$')
       ])),
       'gstnumber': new FormControl('', Validators.compose([
 
