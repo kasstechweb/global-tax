@@ -71,6 +71,19 @@
       </ion-col>
     </ion-row>
 
+    <ion-row class="related-deal" [routerLink]="['/scan']">
+      <ion-col class="deal-logo-wrapper ion-activatable" size="4">
+        <ion-ripple-effect></ion-ripple-effect>
+        <img class="inner-img" src="./assets/imgs/scan.png" alt="booking" loading="lazy">
+      </ion-col>
+      <ion-col class="deal-info-wrapper ion-activatable" size="8">
+        <ion-ripple-effect></ion-ripple-effect>
+        <h4 class="related-deal-title">
+          <span class="app-text-shell"> Receipt scanner </span>
+        </h4>
+      </ion-col>
+    </ion-row>
+
     <ion-row (click)="openPrivacy()">
       <ion-col>
         <div class="ion-text-center">
@@ -84,5 +97,25 @@
       </ion-col>
     </ion-row>
   </div>
+
+<!--  <ion-row>-->
+<!--    <ion-img [src]="image"></ion-img>-->
+
+<!--    <ion-button expand="full" (click)="captureImage()" >Recognize</ion-button>-->
+<!--    <ion-button expand="full" (click)="recognizeImage()" [disabled]="!workerReady">Recognize</ion-button>-->
+
+<!--    <ion-card *ngIf="workerReady && captureProgress > 0">-->
+<!--      <ion-card-header>-->
+<!--        <ion-card-title>-->
+<!--          Capture progress: {{ captureProgress }}%-->
+<!--        </ion-card-title>-->
+<!--      </ion-card-header>-->
+<!--      <ion-card-content>-->
+<!--        {{ ocrResult }}-->
+<!--      </ion-card-content>-->
+<!--    </ion-card>-->
+<!--  </ion-row>-->
+
+
 
 </ion-content>

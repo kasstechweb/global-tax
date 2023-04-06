@@ -1,0 +1,63 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="welcome"></ion-back-button>
+    </ion-buttons>
+    <ion-title>RECEIPT SCANNER</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-searchbar class="friends-searchbar" animated [(ngModel)]="searchQuery" (ionChange)="searchList()"></ion-searchbar>
+
+  <ng-template #friendItem let-friend="friend">
+    <ion-row class="user-details-section">
+      <ion-col class="user-image-wrapper" size="2">
+        <!--        <app-aspect-ratio [ratio]="{w:1, h:1}">-->
+        <ion-img class="user-image" animation="spinner" [src]="friend.image" [alt]="'friend'"></ion-img>
+        <!--        </app-aspect-ratio>-->
+      </ion-col>
+      <ion-col class="user-data-wrapper">
+        <div class="user-info">
+          <h3 class="user-name">
+            {{friend.name}}
+          </h3>
+          <h5 class="user-job">
+            {{friend.job}}
+          </h5>
+        </div>
+      </ion-col>
+      <ion-col class="user-actions-wrapper" size="2">
+        <ion-icon name="chevron-forward-outline"></ion-icon>
+      </ion-col>
+    </ion-row>
+  </ng-template>
+
+  <ion-list class="friends-list" *ngIf="friendsList.length > 0">
+    <ion-item class="friend-item" *ngFor="let friend of friendsList">
+      <ng-container *ngTemplateOutlet="friendItem; context: { friend: friend }"></ng-container>
+    </ion-item>
+  </ion-list>
+  <ng-container *ngIf="friendsList.length <= 0">
+    <h3 class="empty-list-message">No Friends</h3>
+  </ng-container>
+
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button (click)="captureImage()">
+      <ion-icon name="camera"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+<!--  <ion-tabs>-->
+<!--    <ion-tab-bar slot="bottom">-->
+<!--      <ion-tab-button tab="files-list">-->
+<!--        <ion-icon name="file-tray-full-outline"></ion-icon>-->
+<!--        <ion-label>Files</ion-label>-->
+<!--      </ion-tab-button>-->
+
+<!--      <ion-tab-button (click)="captureImage()">-->
+<!--        <ion-icon name="camera"></ion-icon>-->
+<!--        <ion-label>Camera</ion-label>-->
+<!--      </ion-tab-button>-->
+<!--    </ion-tab-bar>-->
+<!--  </ion-tabs>-->
+</ion-content>
