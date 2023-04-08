@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 
 import {Camera, CameraResultType, CameraSource} from '@capacitor/camera'
+import {StorageService} from "../services/storage.service";
+import {NavController} from "@ionic/angular";
+import {IonLoaderService} from "../services/ion-loader.service";
 
 @Component({
   selector: 'app-scan',
@@ -15,6 +18,7 @@ export class ScanPage implements OnInit {
 
   friends = [
     {
+      "id": 0,
       "image": "./assets/imgs/personal.png",
       "name": "Leo Gill",
       "job": "Ionic Developer",
@@ -23,6 +27,7 @@ export class ScanPage implements OnInit {
       "following": true
     },
     {
+      "id": 1,
       "image": "./assets/imgs/personal.png",
       "name": "Marie Jensen",
       "job": "Illustrator",
@@ -31,6 +36,7 @@ export class ScanPage implements OnInit {
       "following": false
     },
     {
+      "id": 2,
       "image": "./assets/imgs/personal.png",
       "name": "Sasha Ho",
       "job": "UI Designer",
@@ -40,7 +46,28 @@ export class ScanPage implements OnInit {
     }
   ];
 
-  constructor() { }
+  constructor(
+    private storage: StorageService,
+    private navController: NavController,
+    private ionLoader: IonLoaderService,
+  ) {
+    this.ionLoader.showLoader().then(()=> {
+      this.storage.getStorageData('scan_logged_in').then(
+        res => {
+          console.log(res);
+          if (res){
+            this.ionLoader.dismissLoader();
+            if (JSON.parse(res) != 'True'){
+              this.navController.navigateRoot(['/login']);
+            }
+          }else {
+            this.ionLoader.dismissLoader();
+            this.navController.navigateRoot(['/login']);
+          }
+        });
+    });
+
+  }
 
   ngOnInit() {
 

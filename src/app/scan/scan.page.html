@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar color="primary">
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="welcome"></ion-back-button>
+      <ion-back-button defaultHref="welcome" ></ion-back-button>
     </ion-buttons>
     <ion-title>RECEIPT SCANNER</ion-title>
   </ion-toolbar>
@@ -11,7 +11,8 @@
   <ion-searchbar class="friends-searchbar" animated [(ngModel)]="searchQuery" (ionChange)="searchList()"></ion-searchbar>
 
   <ng-template #friendItem let-friend="friend">
-    <ion-row class="user-details-section">
+    <ion-row class="user-details-section ion-activatable" [routerLink]="friend.id">
+      <ion-ripple-effect></ion-ripple-effect>
       <ion-col class="user-image-wrapper" size="2">
         <!--        <app-aspect-ratio [ratio]="{w:1, h:1}">-->
         <ion-img class="user-image" animation="spinner" [src]="friend.image" [alt]="'friend'"></ion-img>
@@ -41,6 +42,10 @@
   <ng-container *ngIf="friendsList.length <= 0">
     <h3 class="empty-list-message">No Friends</h3>
   </ng-container>
+
+<!--  <ion-button [routerLink]="">-->
+<!--    test-->
+<!--  </ion-button>-->
 
   <ion-fab slot="fixed" vertical="bottom" horizontal="end">
     <ion-fab-button (click)="captureImage()">

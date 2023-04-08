@@ -11,8 +11,8 @@ export class IonLoaderService {
   ) { }
 
   // Simple loader
-  showLoader() {
-    this.loadingController.create({
+  async showLoader() {
+    await this.loadingController.create({
       message: 'Loading...'
     }).then((response) => {
       response.present();
