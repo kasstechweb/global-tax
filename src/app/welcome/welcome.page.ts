@@ -2,6 +2,9 @@ import {Component, OnInit} from '@angular/core';
 import {DataService} from "../services/data.service";
 import {Browser} from "@capacitor/browser";
 import {StorageService} from "../services/storage.service";
+import {IonLoaderService} from "../services/ion-loader.service";
+import {ToastService} from "../services/toast.service";
+import {NavController} from "@ionic/angular";
 
 // import {createWorker} from 'tesseract.js'
 // import {Camera, CameraResultType, CameraSource} from '@capacitor/camera'
@@ -24,6 +27,9 @@ export class WelcomePage implements OnInit {
   constructor(
     private dataservice: DataService,
     private storage: StorageService,
+    private ionLoader: IonLoaderService,
+    private toast: ToastService,
+    private navController: NavController,
   ) {
     // this.name = this.dataservice.getData('name');
     // this.loadWorker();
@@ -51,6 +57,26 @@ export class WelcomePage implements OnInit {
 
   async openPrivacy() {
     await Browser.open({ url: 'https://employerservice.ca/gtaxapp/privacy.html' });
+  }
+
+  openScanner() {
+    // this.ionLoader.showLoader().then(()=> {
+      this.storage.getStorageData('scan_logged_in').then(
+        res => {
+          // console.log(res);
+          if (res){
+            // this.ionLoader.dismissLoader();
+            if (JSON.parse(res) != 'True'){
+              this.navController.navigateRoot(['/login']);
+            }else if (JSON.parse(res) == 'True'){
+              this.navController.navigateRoot(['/scan']);
+            }
+          }else {
+            // this.ionLoader.dismissLoader();
+            this.navController.navigateRoot(['/login']);
+          }
+        });
+    // });
   }
 
   // async loadWorker() {

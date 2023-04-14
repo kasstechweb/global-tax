@@ -5,6 +5,7 @@ import {HttpClient} from "@angular/common/http";
 import {IonLoaderService} from "../services/ion-loader.service";
 import {ToastService} from "../services/toast.service";
 import {StorageService} from "../services/storage.service";
+import {NavController} from "@ionic/angular";
 
 // import { MenuController } from '@ionic/angular';
 
@@ -33,6 +34,7 @@ export class LoginPage implements OnInit {
     private ionLoader: IonLoaderService,
     private toast: ToastService,
     private storage: StorageService,
+    private navController: NavController,
     // public menu: MenuController
   ) {
     // this.storage.getStorageData('scan_logged_in').then(
@@ -89,8 +91,9 @@ export class LoginPage implements OnInit {
             this.loginForm.reset();
             this.storage.setStorageData('scan_logged_in', 'True');
             this.storage.setStorageData('email', data['email']);
+            this.storage.setStorageData('user_id', data['user_id']);
 
-            this.router.navigate(['/scan']);
+            this.navController.navigateRoot(['/scan']);
           }
         }, error => {
           console.log(error.error.text);

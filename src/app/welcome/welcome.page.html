@@ -71,7 +71,7 @@
       </ion-col>
     </ion-row>
 
-    <ion-row class="related-deal" [routerLink]="['/scan']">
+    <ion-row class="related-deal" (click)="openScanner()">
       <ion-col class="deal-logo-wrapper ion-activatable" size="4">
         <ion-ripple-effect></ion-ripple-effect>
         <img class="inner-img" src="./assets/imgs/scan.png" alt="booking" loading="lazy">
