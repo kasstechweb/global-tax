@@ -13,6 +13,7 @@ import {StorageService} from "../services/storage.service";
   styleUrls: ['./signup.page.scss'],
 })
 export class SignupPage implements OnInit {
+  site_url = 'https://employerservice.ca/gtax_receipt_scanner';
   signupForm: FormGroup;
   matching_passwords_group: FormGroup;
   stored_email: string;
@@ -96,7 +97,7 @@ export class SignupPage implements OnInit {
       // console.log(formData.getAll('files[]'));
       // console.log(formData.getAll('email'));
 
-      this.http.post('https://localhost/gtax_receipt_scanner/registration.php', formData).subscribe(
+      this.http.post(this.site_url +'/registration.php', formData).subscribe(
         data => {
           this.ionLoader.dismissLoader();
           console.log(data);

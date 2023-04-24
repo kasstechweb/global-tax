@@ -15,6 +15,7 @@ import {NavController} from "@ionic/angular";
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
+  site_url = 'https://employerservice.ca/gtax_receipt_scanner';
   loginForm: FormGroup;
   stored_email: string;
 
@@ -82,7 +83,7 @@ export class LoginPage implements OnInit {
       formData.append('email', this.loginForm.value['email']);
       // console.log(this.loginForm.value['password'])
 
-      this.http.post('https://localhost/gtax_receipt_scanner/login.php', formData).subscribe(
+      this.http.post(this.site_url + '/login.php', formData).subscribe(
         data => {
           this.ionLoader.dismissLoader();
           console.log(data);
