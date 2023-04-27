@@ -10,9 +10,9 @@
 <ion-content>
 
   <ion-searchbar class="friends-searchbar" animated [(ngModel)]="searchQuery" (ionChange)="searchList()"></ion-searchbar>
-  <ion-progress-bar [value]="captureProgress" color="tertiary" *ngIf="show_progress"></ion-progress-bar>
+<!--  <ion-progress-bar [value]="captureProgress" color="tertiary" *ngIf="show_progress"></ion-progress-bar>-->
 
-  <h5>{{ captureProgress}}</h5>
+<!--  <h5>{{ captureProgress}}</h5>-->
 
 
   <ng-template #friendItem let-friend="friend">
@@ -59,7 +59,19 @@
       <ion-icon name="camera"></ion-icon>
     </ion-fab-button>
   </ion-fab>
-<!--  <ion-tabs>-->
+
+  <div class="loading-wrapper" *ngIf="show_progress">
+    <div class="loading-text">
+      <ion-spinner name="crescent"></ion-spinner>
+      Please wait... ({{ captureProgress }}%)
+    </div>
+      <ion-progress-bar [value]="captureProgress/100" color="tertiary" ></ion-progress-bar>
+
+
+  </div>
+
+
+  <!--  <ion-tabs>-->
 <!--    <ion-tab-bar slot="bottom">-->
 <!--      <ion-tab-button tab="files-list">-->
 <!--        <ion-icon name="file-tray-full-outline"></ion-icon>-->

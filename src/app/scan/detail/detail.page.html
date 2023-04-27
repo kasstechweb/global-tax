@@ -7,6 +7,37 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-{{ id }}
+
+<ion-content class="food-details-content">
+
+  <div class="recipes-wrapper">
+    <div class="recipes-list">
+      <div class="recipe-item">
+        <ion-img class="recipe-cover-image" src="./assets/imgs/0001.jpg"></ion-img>
+        <div class="chef-picture-wrapper box">
+            <ion-img class="chef-picture-image" src="https://logo.clearbit.com/costco.com" [alt]="'chef image'"></ion-img>
+        </div>
+        <h4 class="recipe-title">{{ id }} RECIPE</h4>
+        <hr class="details-divider">
+        <ion-list inset>
+          <ion-item>
+            Subtotal
+            <span slot="end">
+              $ 44.06</span>
+          </ion-item>
+          <ion-item>
+            GST(5%)
+            <span slot="end">$ 44.06</span>
+          </ion-item>
+          <ion-item>
+            Total
+            <span slot="end">$ 44.06</span>
+          </ion-item>
+        </ion-list>
+
+      </div>
+    </div>
+
+
+  </div>
 </ion-content>

@@ -18,6 +18,14 @@ export class IonLoaderService {
       response.present();
     });
   }
+  // Simple loader
+  async showLoader_msg(msg) {
+    await this.loadingController.create({
+      message: msg
+    }).then((response) => {
+      response.present();
+    });
+  }
   // Dismiss loader
   dismissLoader() {
     this.loadingController.dismiss().then((response) => {

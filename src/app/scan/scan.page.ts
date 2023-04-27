@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import {Camera, CameraResultType, CameraSource} from '@capacitor/camera'
 import {StorageService} from "../services/storage.service";
-import {NavController} from "@ionic/angular";
+import {LoadingController, NavController} from "@ionic/angular";
 import {IonLoaderService} from "../services/ion-loader.service";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 
@@ -41,40 +41,13 @@ export class ScanPage implements OnInit {
   gst_amount: string;
   total_amount: string;
   logo_text: string;
-
-  // test = 'test'
-//   friendsList: ;
-
-  // friends = [
-  //   {
-  //     "id": 0,
-  //     "image": "./assets/imgs/personal.png",
-  //     "name": "Leo Gill",
-  //     "amount_before_tax": "11",
-  //     "amount_after_tax": "24",
-  //   },
-  //   {
-  //     "id": 1,
-  //     "image": "./assets/imgs/personal.png",
-  //     "name": "Mill Ho",
-  //     "amount_before_tax": "200",
-  //     "amount_after_tax": "300",
-  //   },
-  //   {
-  //     "id": 2,
-  //     "image": "./assets/imgs/personal.png",
-  //     "name": "Sasha Ho",
-  //     "amount_before_tax": "20",
-  //     "amount_after_tax": "30",
-  //   }
-  // ];
+  logo_url: string;
 
   constructor(
     private storage: StorageService,
     private navController: NavController,
     private ionLoader: IonLoaderService,
     public http: HttpClient,
-    private router: Router,
   ) {
     this.ionLoader.showLoader().then(()=> {
       this.loadWorker();
@@ -118,6 +91,14 @@ export class ScanPage implements OnInit {
 
   }
 
+  // async showLoader_percentage() {
+  //   await this.loadingController.create({
+  //     message: 'Loading...' + this.captureProgress
+  //   }).then((response) => {
+  //     response.present();
+  //   });
+  // }
+
   ngOnInit() {
 
 
@@ -160,7 +141,7 @@ export class ScanPage implements OnInit {
             if(err.status == '200'){
               list[i].icon = full_icon_url
             }else if(err.status == '501'){ // error couldn't get image from url
-              list[i].icon = this.icon_url + small_name + '.com'
+              list[i].icon = this.icon_url + small_name + '.com';
             }else if(err.status == '0'){ // error couldn't get image from url
               // console.log(small_name + ' 0')
               // list[i].icon = false;
@@ -197,8 +178,10 @@ export class ScanPage implements OnInit {
       }, (err) => {
         // console.log(err)
         if(err.status == '200'){
-          return full_icon_url
+          this.logo_url = small_name + '.ca';
+          return full_icon_url;
         }else if(err.status == '501'){ // error couldn't get image from url
+          this.logo_url = small_name + '.com';
           return  this.icon_url + small_name + '.com'
         }else if(err.status == '0'){ // error couldn't get image from url
           // console.log(small_name + ' 0')
@@ -212,8 +195,10 @@ export class ScanPage implements OnInit {
               // console.log('err com: ')
               // console.log(err)
               if(err.status == '200'){
+                this.logo_url = small_name + '.com';
                 return  full_icon_url_com;
               }else if(err.status == '0'){
+                this.logo_url = ' ';
                 return false;
               }
             });
@@ -222,12 +207,23 @@ export class ScanPage implements OnInit {
   }
 
   async loadWorker() {
+    let loader_loaded = false;
     this.worker = await createWorker({
       logger: progress => {
-        console.log(progress);
+        // console.log(progress);
         if (progress.status == 'recognizing text') {
-          // this.captureProgress = parseInt('' + progress.progress * 100);
-          this.captureProgress = progress.progress
+          // this.captureProgress = progress.progress
+          // if (!loader_loaded){
+          //   this.ionLoader.showLoader_msg('test');
+          //   this.show_progress = true;
+          //   loader_loaded = true;
+          // }
+
+          this.captureProgress = parseInt('' + progress.progress * 100);
+
+          // console.log(this.captureProgress)
+          // this.ionLoader.progress = progress.progress;
+
         }
       }
     });
@@ -251,16 +247,18 @@ export class ScanPage implements OnInit {
     });
     console.log('image: ', image);
     this.image = image.dataUrl;
-    this.recognizeImage();
+    await this.recognizeImage();
   }
 
   async recognizeImage() {
-
-    this.ionLoader.showLoader().then(()=>{
+    // this.ionLoader.progress = this.captureProgress;
+    // this.ionLoader.showLoader_percentage().then(()=>{
       this.show_progress = true;
-    });
-    // this.image = './assets/imgs/0001.jpg' // debug remove later
-    this.image = './assets/imgs/0002.jpg' // debug remove later
+    // });
+
+    // await this.ionLoader.showLoader_msg(this.captureProgress.toString());
+    this.image = './assets/imgs/0001.jpg' // debug remove later
+    // this.image = './assets/imgs/0002.jpg' // debug remove later
     // this.image = './assets/imgs/0003.jpeg' // debug remove later
     // this.image = './assets/imgs/0005.jpg' // debug remove later
     // this.image = './assets/imgs/0009.jpg' // debug remove later
@@ -328,7 +326,7 @@ export class ScanPage implements OnInit {
     this.upload_data()
 
     this.show_progress = false;
-    this.ionLoader.dismissLoader();
+    // this.ionLoader.dismissLoader();
     await this.worker.terminate();
     // await this.router.navigateByUrl("/scan", { skipLocationChange: true });
     // window.location.reload();
@@ -336,6 +334,11 @@ export class ScanPage implements OnInit {
   }
 
   upload_data(){
+
+    if(!this.logo_url){
+      this.logo_url = 'my-business.png'
+    }
+    console.log(this.logo_url)
     // console.log(this.friends[this.friends.length - 1].id)
     let formData = new FormData();
     formData.append('logo_text', this.logo_text);
@@ -343,6 +346,8 @@ export class ScanPage implements OnInit {
     formData.append('gst', this.gst_amount);
     formData.append('total', this.total_amount);
     formData.append('user_id', this.user_id);
+    formData.append('image', this.image)
+    formData.append('logo_url', this.logo_url)
 
     this.http.post(this.site_url + '/upload_receipt.php', formData).subscribe(
       data => {
