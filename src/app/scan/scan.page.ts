@@ -23,7 +23,7 @@ export class ScanPage implements OnInit {
   site_url = 'https://localhost/gtax_receipt_scanner';
   // icon_url = 'https://app.outboundsales.io/api/logo/';
   icon_url = 'https://logo.clearbit.com/'
-  icon_name: string;
+  icon_full_url: string;
   friendsList: Array<any>;
   friends: Array<any>;
   searchQuery = '';
@@ -272,9 +272,9 @@ export class ScanPage implements OnInit {
     // this.image = 'https://tesseract.projectnaptha.com/img/eng_bw.png'
     const result = await this.worker.recognize(this.image);
 
-    const result_logo = await this.worker.recognize(this.image,
-      {rectangle: { top: 0, left: 0, width: 1000, height: 500 }
-      });
+    // const result_logo = await this.worker.recognize(this.image,
+    //   {rectangle: { top: 0, left: 0, width: 1000, height: 500 }
+    //   });
 
     // console.log(result);
 
@@ -293,6 +293,10 @@ export class ScanPage implements OnInit {
     // pattern for small receipt
     const regExpTotal = new RegExp('(\\bTotal\\n\\n\\$?\\b)(\\d{1,3}(?:,?\\d{3})*\\.\\d{2})');
 
+    const regExpAmount = new RegExp('\\$(\\d{1,3}(?:,?\\d{3})*\\.\\d{2})');
+
+    const regExpIcon = new RegExp('((ftp|http|https):\\/\\/)?(www.)?(?!.*(ftp|http|https|www.))([a-zA-Z0-9_-]+)(\\.[a-zA-Z]+)+((\\/)[\\w#]+)*(\\/\\w+\\?[a-zA-Z0-9_]+=\\w+(&[a-zA-Z0-9_]+=\\w+)*)?');
+
     if(this.ocrResult.match(regExp)){ // if subtotal word found
       this.subtotal_amount = this.ocrResult.match(regExp)[2];
       if(this.ocrResult.match(regExpGST)){ // check for gst word
@@ -308,39 +312,59 @@ export class ScanPage implements OnInit {
       let gst_float = Math.round(total_float - subtotal_float);
       this.subtotal_amount = subtotal_float.toFixed(2).toString();
       this.gst_amount = gst_float.toFixed(2).toString();
+    }else if(this.ocrResult.match(regExpAmount)){ // if not total found but found amount means small receipt
+      // console.log(this.ocrResult.match(regExpTotal)[2]);
+      this.total_amount = this.ocrResult.match(regExpAmount)[1];
+      // get subtotal from total calculations
+      let total_float = parseFloat(this.total_amount);
+      let subtotal_float = (total_float) - ((total_float / (1 + 0.05)) * 0.05);
+      let gst_float = Math.round(total_float - subtotal_float);
+      this.subtotal_amount = subtotal_float.toFixed(2).toString();
+      this.gst_amount = gst_float.toFixed(2).toString();
     }
 
     // get logo text
-    let logo_text = result_logo.data.lines[0].text;
-    if (logo_text.includes('TRANSACTION RECORD')) { // if this word on logo skip to next line
-      let index = 1;
-      while(result_logo.data.lines[index].confidence < 60){
-        index++;
+    // if(result_logo.data){
+      console.log(result)
+      let logo_text = result.data.lines[0].text;
+      if (logo_text.includes('TRANSACTION RECORD')) { // if this word on logo skip to next line
+        let index = 1;
+        while(result.data.lines[index].confidence < 60){
+          index++;
+        }
+        logo_text = result.data.lines[index].text;
       }
-      logo_text = result_logo.data.lines[index].text;
+      logo_text = logo_text.replace('\n', '');
+      this.logo_text = logo_text
+    // }
+
+    if(this.ocrResult.match(regExpIcon)){
+      this.logo_text = this.ocrResult.match(regExpIcon)[5];
+      console.log('regexp ' + this.logo_text);
+      this.icon_full_url = this.icon_url + this.ocrResult.match(regExpIcon)[5] + this.ocrResult.match(regExpIcon)[6]
     }
-    logo_text = logo_text.replace('\n', '');
-    this.logo_text = logo_text
-
     // log the results
-    // console.log('LOGO ==> ' + logo_text)
-    // console.log('Subtotal ==> ' + this.subtotal_amount)
-    // console.log('GST ==> ' + this.gst_amount)
-    // console.log('Total ==> ' + this.total_amount)
-    // console.log('User id ==> ' + this.user_id)
+    console.log('LOGO ==> ' + this.logo_text)
+    console.log('Subtotal ==> ' + this.subtotal_amount)
+    console.log('GST ==> ' + this.gst_amount)
+    console.log('Total ==> ' + this.total_amount)
+    console.log('User id ==> ' + this.user_id)
 
-    this.upload_data()
+    this.upload_data();
+    this.reset();
 
-    this.show_progress = false;
     // this.ionLoader.dismissLoader();
-    await this.worker.terminate();
+    // await this.worker.terminate();
     // await this.router.navigateByUrl("/scan", { skipLocationChange: true });
     // window.location.reload();
 
   }
 
   upload_data(){
-    this.get_icon_single();
+    if(!this.icon_full_url){
+      this.get_icon_single();
+    }
+
 
     // if(!this.logo_url){
     //   this.logo_url = 'my-business.png'
@@ -358,20 +382,21 @@ export class ScanPage implements OnInit {
 
     this.http.post(this.site_url + '/upload_receipt.php', formData).subscribe(
       data => {
-        // console.log(data)
+        console.log(data)
+        console.log(this.friends)
         this.friends.reverse();
 
         this.friends.push(
           {
             "id": data['inserted_id'],
-            "icon": './assets/imgs/my-business.png',
+            "icon": this.icon_full_url?this.icon_full_url:'./assets/imgs/my-business.png',
             "name": this.logo_text,
             "amount_before_tax": this.subtotal_amount,
             "amount_after_tax": this.total_amount,
           });
         this.friends.reverse();
 
-        // console.log(this.friends)
+        console.log(this.friends)
       }, error => {
         // console.log(error)
       });
@@ -379,4 +404,12 @@ export class ScanPage implements OnInit {
     // console.log(this.friends)
   }
 
+  reset() {
+    this.show_progress = false;
+    this.captureProgress = 0;
+    this.ocrResult = '';
+    this.subtotal_amount= '';
+    this.gst_amount = '';
+    this.total_amount= '';
+  }
 }
