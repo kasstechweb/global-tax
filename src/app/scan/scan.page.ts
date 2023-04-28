@@ -53,7 +53,7 @@ export class ScanPage implements OnInit {
       this.loadWorker();
       this.storage.getStorageData('scan_logged_in').then(
         res => {
-          console.log(res);
+          // console.log(res);
           if (res){
 
             if (JSON.parse(res) != 'True'){
@@ -63,7 +63,7 @@ export class ScanPage implements OnInit {
               this.storage.getStorageData('user_id').then(
                 res => {
                   this.user_id = JSON.parse(res)
-                  console.log(this.user_id)
+                  // console.log(this.user_id)
                   let formData = new FormData();
                   formData.append('user_id', this.user_id);
                   this.http.post(this.site_url + '/get_receipts.php', formData).subscribe(
@@ -71,9 +71,9 @@ export class ScanPage implements OnInit {
                       this.friends = data['data'];
                       this.friends = this.friends.reverse();
                       this.friendsList = this.friends;
-                      console.log(data['data'])
+                      // console.log(data['data'])
                       for (const friend of this.friends) {
-                        console.log(friend.name)
+                        // console.log(friend.name)
                       }
 
                       //  icon name logic
@@ -130,12 +130,18 @@ export class ScanPage implements OnInit {
   get_icon(list) {
     for (let i=0;i<list.length;i++) {
       let small_name = list[i].name.toLowerCase()
+      small_name = small_name.trim();
+      small_name = small_name.replace(/\s/g, '');
+
       let full_icon_url = this.icon_url + small_name + '.ca'
       let full_icon_url_com = this.icon_url + small_name + '.com'
+
+
       // console.log(full_icon_url)
       this.http.get(full_icon_url).subscribe(
           result => {
-            console.log('result: ' + result)
+            // console.log('result: ' + result)
+
           }, (err) => {
           // console.log(err)
             if(err.status == '200'){
@@ -143,16 +149,9 @@ export class ScanPage implements OnInit {
             }else if(err.status == '501'){ // error couldn't get image from url
               list[i].icon = this.icon_url + small_name + '.com';
             }else if(err.status == '0'){ // error couldn't get image from url
-              // console.log(small_name + ' 0')
-              // list[i].icon = false;
-              // list[i].icon = this.icon_url + small_name + '.com'
-
               this.http.get(full_icon_url_com).subscribe(
                 result => {
-                  console.log('result: ' + result)
                 }, (err) => {
-                  // console.log('err com: ')
-                  // console.log(err)
                   if(err.status == '200'){
                     list[i].icon = full_icon_url_com;
                   }else if(err.status == '0'){
@@ -163,25 +162,29 @@ export class ScanPage implements OnInit {
           });
     }
     this.friends = list
-    console.log(this.friends)
+    // console.log(this.friends)
     // this.upload_data()
   }
 
   get_icon_single(): any{
     let small_name = this.logo_text.toLowerCase();
+    small_name = small_name.trim();
+    // console.log('small name: ' + small_name)
     let full_icon_url = this.icon_url + small_name + '.ca'
     let full_icon_url_com = this.icon_url + small_name + '.com'
     // console.log(full_icon_url)
     this.http.get(full_icon_url).subscribe(
       result => {
-        console.log('result: ' + result)
+        // console.log('result: ' + result)
       }, (err) => {
         // console.log(err)
         if(err.status == '200'){
           this.logo_url = small_name + '.ca';
+          this.friends[0].icon = full_icon_url;
           return full_icon_url;
         }else if(err.status == '501'){ // error couldn't get image from url
           this.logo_url = small_name + '.com';
+          this.friends[0].icon = full_icon_url_com;
           return  this.icon_url + small_name + '.com'
         }else if(err.status == '0'){ // error couldn't get image from url
           // console.log(small_name + ' 0')
@@ -190,13 +193,15 @@ export class ScanPage implements OnInit {
 
           this.http.get(full_icon_url_com).subscribe(
             result => {
-              console.log('result: ' + result)
+              // console.log('result: ' + result)
             }, (err) => {
               // console.log('err com: ')
               // console.log(err)
               if(err.status == '200'){
                 this.logo_url = small_name + '.com';
-                return  full_icon_url_com;
+                // console.log('logo url: ' + this.logo_url)
+                this.friends[0].icon = full_icon_url_com;
+                return full_icon_url_com;
               }else if(err.status == '0'){
                 this.logo_url = ' ';
                 return false;
@@ -227,14 +232,14 @@ export class ScanPage implements OnInit {
         }
       }
     });
-    await this.worker.load();
+    // await this.worker.load();
     await this.worker.loadLanguage('fin');
     await this.worker.initialize('fin');
     await this.worker.setParameters({
       tessedit_pageseg_mode: PSM.SPARSE_TEXT,
     });
 
-    console.log('Finish')
+    // console.log('Finish')
     this.workerReady = true;
   }
 
@@ -245,7 +250,7 @@ export class ScanPage implements OnInit {
       resultType: CameraResultType.DataUrl,
       source: CameraSource.Camera
     });
-    console.log('image: ', image);
+    // console.log('image: ', image);
     this.image = image.dataUrl;
     await this.recognizeImage();
   }
@@ -257,12 +262,13 @@ export class ScanPage implements OnInit {
     // });
 
     // await this.ionLoader.showLoader_msg(this.captureProgress.toString());
-    this.image = './assets/imgs/0001.jpg' // debug remove later
+    // this.image = './assets/imgs/0001.jpg' // debug remove later
     // this.image = './assets/imgs/0002.jpg' // debug remove later
     // this.image = './assets/imgs/0003.jpeg' // debug remove later
     // this.image = './assets/imgs/0005.jpg' // debug remove later
     // this.image = './assets/imgs/0009.jpg' // debug remove later
     // this.image = './assets/imgs/0007.jpg' // debug remove later
+    // this.image = './assets/imgs/sw.jpg' // debug remove later
     // this.image = 'https://tesseract.projectnaptha.com/img/eng_bw.png'
     const result = await this.worker.recognize(this.image);
 
@@ -270,12 +276,12 @@ export class ScanPage implements OnInit {
       {rectangle: { top: 0, left: 0, width: 1000, height: 500 }
       });
 
-    console.log(result);
+    // console.log(result);
 
     this.result_array = result.data.lines
     for (let item of this.result_array) { // loop through the result and remove text that has confidence < 60
       if (item.confidence > 60) {
-        console.log(item.text)
+        // console.log(item.text)
         this.ocrResult += item.text
       }
     }
@@ -294,7 +300,7 @@ export class ScanPage implements OnInit {
       }
       this.total_amount = (parseFloat(this.subtotal_amount) + parseFloat(this.gst_amount)).toString();
     }else if(this.ocrResult.match(regExpTotal)){ // if total found means small receipt
-      console.log(this.ocrResult.match(regExpTotal)[2]);
+      // console.log(this.ocrResult.match(regExpTotal)[2]);
       this.total_amount = this.ocrResult.match(regExpTotal)[2];
       // get subtotal from total calculations
       let total_float = parseFloat(this.total_amount);
@@ -317,11 +323,11 @@ export class ScanPage implements OnInit {
     this.logo_text = logo_text
 
     // log the results
-    console.log('LOGO ==> ' + logo_text)
-    console.log('Subtotal ==> ' + this.subtotal_amount)
-    console.log('GST ==> ' + this.gst_amount)
-    console.log('Total ==> ' + this.total_amount)
-    console.log('User id ==> ' + this.user_id)
+    // console.log('LOGO ==> ' + logo_text)
+    // console.log('Subtotal ==> ' + this.subtotal_amount)
+    // console.log('GST ==> ' + this.gst_amount)
+    // console.log('Total ==> ' + this.total_amount)
+    // console.log('User id ==> ' + this.user_id)
 
     this.upload_data()
 
@@ -334,11 +340,12 @@ export class ScanPage implements OnInit {
   }
 
   upload_data(){
+    this.get_icon_single();
 
-    if(!this.logo_url){
-      this.logo_url = 'my-business.png'
-    }
-    console.log(this.logo_url)
+    // if(!this.logo_url){
+    //   this.logo_url = 'my-business.png'
+    // }
+    // console.log(this.logo_url)
     // console.log(this.friends[this.friends.length - 1].id)
     let formData = new FormData();
     formData.append('logo_text', this.logo_text);
@@ -347,28 +354,29 @@ export class ScanPage implements OnInit {
     formData.append('total', this.total_amount);
     formData.append('user_id', this.user_id);
     formData.append('image', this.image)
-    formData.append('logo_url', this.logo_url)
+    // formData.append('logo_url', this.logo_url)
 
     this.http.post(this.site_url + '/upload_receipt.php', formData).subscribe(
       data => {
-        console.log(data)
+        // console.log(data)
         this.friends.reverse();
 
         this.friends.push(
           {
             "id": data['inserted_id'],
-            "icon": this.get_icon_single(),
+            "icon": './assets/imgs/my-business.png',
             "name": this.logo_text,
             "amount_before_tax": this.subtotal_amount,
             "amount_after_tax": this.total_amount,
           });
         this.friends.reverse();
 
+        // console.log(this.friends)
       }, error => {
-        console.log(error)
+        // console.log(error)
       });
 
-    console.log(this.friends)
+    // console.log(this.friends)
   }
 
 }
