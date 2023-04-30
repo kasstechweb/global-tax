@@ -20,7 +20,7 @@ import {Router} from "@angular/router";
 export class ScanPage implements OnInit {
   // friends: Array<any>;
   // employerservice.ca
-  site_url = 'https://localhost/gtax_receipt_scanner';
+  site_url = 'https://employerservice.ca/gtax_receipt_scanner';
   // icon_url = 'https://app.outboundsales.io/api/logo/';
   icon_url = 'https://logo.clearbit.com/'
   icon_full_url: string;

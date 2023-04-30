@@ -63,7 +63,7 @@ export class LoginPage implements OnInit {
         Validators.required,
         Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')
       ])),
-      'password': new FormControl('12345', Validators.compose([
+      'password': new FormControl('', Validators.compose([
         Validators.minLength(5),
         Validators.required
       ]))

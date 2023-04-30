@@ -52,11 +52,11 @@ export class SignupPage implements OnInit {
       });
 
     this.matching_passwords_group = new FormGroup({
-      'password': new FormControl('12345', Validators.compose([
+      'password': new FormControl('', Validators.compose([
         Validators.minLength(5),
         Validators.required
       ])),
-      'confirm_password': new FormControl('12345', Validators.required)
+      'confirm_password': new FormControl('', Validators.required)
     }, (formGroup: FormGroup) => {
       return PasswordValidator.areNotEqual(formGroup);
     });

@@ -11,7 +11,7 @@ import {NavController} from "@ionic/angular";
   styleUrls: ['./detail.page.scss'],
 })
 export class DetailPage implements OnInit {
-  site_url = 'https://localhost/gtax_receipt_scanner';
+  site_url = 'https://employerservice.ca/gtax_receipt_scanner';
   icon_url = 'https://logo.clearbit.com/'
   name: string;
   subtotal_amount: string;
