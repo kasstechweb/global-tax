@@ -1,16 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
 import {Camera, CameraResultType, CameraSource} from '@capacitor/camera'
 import {StorageService} from "../services/storage.service";
-import {LoadingController, NavController} from "@ionic/angular";
+import {NavController} from "@ionic/angular";
 import {IonLoaderService} from "../services/ion-loader.service";
-import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {HttpClient} from "@angular/common/http";
 
 //reading image import
-import {createWorker, PSM} from 'tesseract.js'
-import * as Tesseract from "tesseract.js";
-import {Validators} from "@angular/forms";
-import {Router} from "@angular/router";
+import * as Tesseract from 'tesseract.js'
+import {createWorker, OEM, PSM} from 'tesseract.js'
 
 @Component({
   selector: 'app-scan',
@@ -20,6 +18,7 @@ import {Router} from "@angular/router";
 export class ScanPage implements OnInit {
   // friends: Array<any>;
   // employerservice.ca
+  // site_url = 'https://localhost/gtax_receipt_scanner';
   site_url = 'https://employerservice.ca/gtax_receipt_scanner';
   // icon_url = 'https://app.outboundsales.io/api/logo/';
   icon_url = 'https://logo.clearbit.com/'
@@ -236,7 +235,9 @@ export class ScanPage implements OnInit {
     await this.worker.loadLanguage('fin');
     await this.worker.initialize('fin');
     await this.worker.setParameters({
+      // tessedit_ocr_engine_mode: OEM.TESSERACT_LSTM_COMBINED,
       tessedit_pageseg_mode: PSM.SPARSE_TEXT,
+      // tessedit_pageseg_mode: PSM.SPARSE_TEXT_OSD,
     });
 
     // console.log('Finish')
@@ -245,12 +246,13 @@ export class ScanPage implements OnInit {
 
   async captureImage() {
     const image = await Camera.getPhoto({
-      quality: 90,
+      quality: 100,
       allowEditing: true,
       resultType: CameraResultType.DataUrl,
       source: CameraSource.Camera
     });
     // console.log('image: ', image);
+
     this.image = image.dataUrl;
     await this.recognizeImage();
   }
@@ -262,6 +264,8 @@ export class ScanPage implements OnInit {
     // });
 
     // await this.ionLoader.showLoader_msg(this.captureProgress.toString());
+    // this.image = './assets/imgs/r11.jpg' // debug remove later
+    // this.image = './assets/imgs/r21.jpg' // debug remove later
     // this.image = './assets/imgs/0001.jpg' // debug remove later
     // this.image = './assets/imgs/0002.jpg' // debug remove later
     // this.image = './assets/imgs/0003.jpeg' // debug remove later
@@ -270,12 +274,18 @@ export class ScanPage implements OnInit {
     // this.image = './assets/imgs/0007.jpg' // debug remove later
     // this.image = './assets/imgs/sw.jpg' // debug remove later
     // this.image = 'https://tesseract.projectnaptha.com/img/eng_bw.png'
+
+    // let img = cv.matFromImageData(this.image)
+    // console.log(img)
+    // this.image = cv.resize(this.image, this.image, (0,0),1.2, 1.2, cv.INTER_CUBIC)
+
+    // console.log(cv.getBuildInformation())
     const result = await this.worker.recognize(this.image);
 
     // const result_logo = await this.worker.recognize(this.image,
-    //   {rectangle: { top: 0, left: 0, width: 1000, height: 500 }
+    //   {rectangle: { top: 0, left: 0, width: 1000, height: 1000 }
     //   });
-
+    // console.log(result_logo)
     // console.log(result);
 
     this.result_array = result.data.lines
@@ -288,20 +298,21 @@ export class ScanPage implements OnInit {
 
     //get subtotal
     // the pattern
-    const regExp = new RegExp('(\\bSubtotal:?\\n\\n\\b)(\\d{1,3}(?:,?\\d{3})*\\.\\d{2})')
+    const regExp = new RegExp('(\\bSubtotal:?|SUBTOTAL|Subtota\\S\\n\\n\\$?\\b)(\\d{1,3}(?:,?\\d{3})*\\.\\d{2})')
     const regExpGST = new RegExp('(\\bGST\\b[\\/]?(\\w.*)?\\n\\n)(\\d{1,3}(?:,?\\d{3})*\\.\\d{2})');
     // pattern for small receipt
-    const regExpTotal = new RegExp('(\\bTotal\\n\\n\\$?\\b)(\\d{1,3}(?:,?\\d{3})*\\.\\d{2})');
+    const regExpTotal = new RegExp('(\\bTotal|TOTAL\\n\\n\\$?\\b)(\\d{1,3}(?:,?\\d{3})*\\.\\d{2})');
 
     const regExpAmount = new RegExp('\\$(\\d{1,3}(?:,?\\d{3})*\\.\\d{2})');
 
-    const regExpIcon = new RegExp('((ftp|http|https):\\/\\/)?(www.)?(?!.*(ftp|http|https|www.))([a-zA-Z0-9_-]+)(\\.[a-zA-Z]+)+((\\/)[\\w#]+)*(\\/\\w+\\?[a-zA-Z0-9_]+=\\w+(&[a-zA-Z0-9_]+=\\w+)*)?');
+    const regExpIcon = new RegExp('((ftp|http|https):\\/\\/)?(www.)?(?!.*(ftp|http|https|www.))([a-zA-Z0-9_-]+)(\\.\\bca|com\\b)+((\\/)[\\w#]+)*(\\/\\w+\\?[a-zA-Z0-9_]+=\\w+(&[a-zA-Z0-9_]+=\\w+)*)?');
 
     if(this.ocrResult.match(regExp)){ // if subtotal word found
       this.subtotal_amount = this.ocrResult.match(regExp)[2];
-      if(this.ocrResult.match(regExpGST)){ // check for gst word
-        this.gst_amount = this.ocrResult.match(regExpGST)[3]
-      }
+      this.gst_amount = ((parseFloat(this.subtotal_amount) * 0.05).toFixed(2)).toString();
+      // if(this.ocrResult.match(regExpGST)){ // check for gst word
+      //   this.gst_amount = this.ocrResult.match(regExpGST)[3]
+      // }
       this.total_amount = (parseFloat(this.subtotal_amount) + parseFloat(this.gst_amount)).toString();
     }else if(this.ocrResult.match(regExpTotal)){ // if total found means small receipt
       // console.log(this.ocrResult.match(regExpTotal)[2]);
@@ -309,7 +320,8 @@ export class ScanPage implements OnInit {
       // get subtotal from total calculations
       let total_float = parseFloat(this.total_amount);
       let subtotal_float = (total_float) - ((total_float / (1 + 0.05)) * 0.05);
-      let gst_float = Math.round(total_float - subtotal_float);
+      let gst_float = total_float - subtotal_float;
+      console.log('gst float: ' + gst_float);
       this.subtotal_amount = subtotal_float.toFixed(2).toString();
       this.gst_amount = gst_float.toFixed(2).toString();
     }else if(this.ocrResult.match(regExpAmount)){ // if not total found but found amount means small receipt
@@ -318,7 +330,8 @@ export class ScanPage implements OnInit {
       // get subtotal from total calculations
       let total_float = parseFloat(this.total_amount);
       let subtotal_float = (total_float) - ((total_float / (1 + 0.05)) * 0.05);
-      let gst_float = Math.round(total_float - subtotal_float);
+      let gst_float = total_float - subtotal_float;
+      console.log('gst float: ' + gst_float);
       this.subtotal_amount = subtotal_float.toFixed(2).toString();
       this.gst_amount = gst_float.toFixed(2).toString();
     }
@@ -326,6 +339,7 @@ export class ScanPage implements OnInit {
     // get logo text
     // if(result_logo.data){
       console.log(result)
+    console.log(this.ocrResult)
       let logo_text = result.data.lines[0].text;
       if (logo_text.includes('TRANSACTION RECORD')) { // if this word on logo skip to next line
         let index = 1;
@@ -339,6 +353,7 @@ export class ScanPage implements OnInit {
     // }
 
     if(this.ocrResult.match(regExpIcon)){
+      console.log(this.ocrResult.match(regExpIcon))
       this.logo_text = this.ocrResult.match(regExpIcon)[5];
       console.log('regexp ' + this.logo_text);
       this.icon_full_url = this.icon_url + this.ocrResult.match(regExpIcon)[5] + this.ocrResult.match(regExpIcon)[6]
