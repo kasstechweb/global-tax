@@ -7,8 +7,8 @@ import {IonLoaderService} from "../services/ion-loader.service";
 import {HttpClient} from "@angular/common/http";
 
 //reading image import
-import * as Tesseract from 'tesseract.js'
-import {createWorker, OEM, PSM} from 'tesseract.js'
+// import * as Tesseract from 'tesseract.js'
+// import {createWorker, OEM, PSM} from 'tesseract.js'
 
 @Component({
   selector: 'app-scan',
@@ -21,26 +21,26 @@ export class ScanPage implements OnInit {
   site_url = 'https://localhost/gtax_receipt_scanner';
   // site_url = 'https://employerservice.ca/gtax_receipt_scanner';
   // icon_url = 'https://app.outboundsales.io/api/logo/';
-  icon_url = 'https://logo.clearbit.com/'
-  icon_full_url: string;
+  // icon_url = 'https://logo.clearbit.com/'
+  // icon_full_url: string;
   friendsList: Array<any>;
   friends: Array<any>;
   searchQuery = '';
   user_id: string;
 
   //reading image stuff
-  worker: Tesseract.Worker;
-  workerReady = false;
-  image = 'https://tesseract.projectnaptha.com/img/eng_bw.png'
-  ocrResult = '';
-  captureProgress = 0;
-  show_progress = false;
-  result_array: Array<any>;
-  subtotal_amount: string;
-  gst_amount: string;
-  total_amount: string;
-  logo_text: string;
-  logo_url: string;
+  // worker: Tesseract.Worker;
+  // workerReady = false;
+  image = ''
+  // ocrResult = '';
+  // captureProgress = 0;
+  // show_progress = false;
+  // result_array: Array<any>;
+  // subtotal_amount: string;
+  // gst_amount: string;
+  // total_amount: string;
+  // logo_text: string;
+  // logo_url: string;
 
   constructor(
     private storage: StorageService,
@@ -49,7 +49,7 @@ export class ScanPage implements OnInit {
     public http: HttpClient,
   ) {
     this.ionLoader.showLoader().then(()=> {
-      this.loadWorker();
+      // this.loadWorker();
       this.storage.getStorageData('scan_logged_in').then(
         res => {
           // console.log(res);
@@ -76,7 +76,7 @@ export class ScanPage implements OnInit {
                       }
 
                       //  icon name logic
-                      this.get_icon(this.friends)
+                      // this.get_icon(this.friends)
                       this.ionLoader.dismissLoader();
                     });
                 });
@@ -126,123 +126,123 @@ export class ScanPage implements OnInit {
     return list.filter(item => item.name.toLowerCase().includes(query.toLowerCase()));
   }
 
-  get_icon(list) {
-    for (let i=0;i<list.length;i++) {
-      let small_name = list[i].name.toLowerCase()
-      small_name = small_name.trim();
-      small_name = small_name.replace(/\s/g, '');
+  // get_icon(list) {
+  //   for (let i=0;i<list.length;i++) {
+  //     let small_name = list[i].name.toLowerCase()
+  //     small_name = small_name.trim();
+  //     small_name = small_name.replace(/\s/g, '');
+  //
+  //     let full_icon_url = this.icon_url + small_name + '.ca'
+  //     let full_icon_url_com = this.icon_url + small_name + '.com'
+  //
+  //
+  //     // console.log(full_icon_url)
+  //     this.http.get(full_icon_url).subscribe(
+  //         result => {
+  //           // console.log('result: ' + result)
+  //
+  //         }, (err) => {
+  //         // console.log(err)
+  //           if(err.status == '200'){
+  //             list[i].icon = full_icon_url
+  //           }else if(err.status == '501'){ // error couldn't get image from url
+  //             list[i].icon = this.icon_url + small_name + '.com';
+  //           }else if(err.status == '0'){ // error couldn't get image from url
+  //             this.http.get(full_icon_url_com).subscribe(
+  //               result => {
+  //               }, (err) => {
+  //                 if(err.status == '200'){
+  //                   list[i].icon = full_icon_url_com;
+  //                 }else if(err.status == '0'){
+  //                   list[i].icon = false;
+  //                 }
+  //               });
+  //           }
+  //         });
+  //   }
+  //   this.friends = list
+  //   // console.log(this.friends)
+  //   // this.upload_data()
+  // }
 
-      let full_icon_url = this.icon_url + small_name + '.ca'
-      let full_icon_url_com = this.icon_url + small_name + '.com'
+  // get_icon_single(): any{
+  //   let small_name = this.logo_text.toLowerCase();
+  //   small_name = small_name.trim();
+  //   // console.log('small name: ' + small_name)
+  //   let full_icon_url = this.icon_url + small_name + '.ca'
+  //   let full_icon_url_com = this.icon_url + small_name + '.com'
+  //   // console.log(full_icon_url)
+  //   this.http.get(full_icon_url).subscribe(
+  //     result => {
+  //       // console.log('result: ' + result)
+  //     }, (err) => {
+  //       // console.log(err)
+  //       if(err.status == '200'){
+  //         this.logo_url = small_name + '.ca';
+  //         this.friends[0].icon = full_icon_url;
+  //         return full_icon_url;
+  //       }else if(err.status == '501'){ // error couldn't get image from url
+  //         this.logo_url = small_name + '.com';
+  //         this.friends[0].icon = full_icon_url_com;
+  //         return  this.icon_url + small_name + '.com'
+  //       }else if(err.status == '0'){ // error couldn't get image from url
+  //         // console.log(small_name + ' 0')
+  //         // list[i].icon = false;
+  //         // list[i].icon = this.icon_url + small_name + '.com'
+  //
+  //         this.http.get(full_icon_url_com).subscribe(
+  //           result => {
+  //             // console.log('result: ' + result)
+  //           }, (err) => {
+  //             // console.log('err com: ')
+  //             // console.log(err)
+  //             if(err.status == '200'){
+  //               this.logo_url = small_name + '.com';
+  //               // console.log('logo url: ' + this.logo_url)
+  //               this.friends[0].icon = full_icon_url_com;
+  //               return full_icon_url_com;
+  //             }else if(err.status == '0'){
+  //               this.logo_url = ' ';
+  //               return false;
+  //             }
+  //           });
+  //       }
+  //     });
+  // }
 
-
-      // console.log(full_icon_url)
-      this.http.get(full_icon_url).subscribe(
-          result => {
-            // console.log('result: ' + result)
-
-          }, (err) => {
-          // console.log(err)
-            if(err.status == '200'){
-              list[i].icon = full_icon_url
-            }else if(err.status == '501'){ // error couldn't get image from url
-              list[i].icon = this.icon_url + small_name + '.com';
-            }else if(err.status == '0'){ // error couldn't get image from url
-              this.http.get(full_icon_url_com).subscribe(
-                result => {
-                }, (err) => {
-                  if(err.status == '200'){
-                    list[i].icon = full_icon_url_com;
-                  }else if(err.status == '0'){
-                    list[i].icon = false;
-                  }
-                });
-            }
-          });
-    }
-    this.friends = list
-    // console.log(this.friends)
-    // this.upload_data()
-  }
-
-  get_icon_single(): any{
-    let small_name = this.logo_text.toLowerCase();
-    small_name = small_name.trim();
-    // console.log('small name: ' + small_name)
-    let full_icon_url = this.icon_url + small_name + '.ca'
-    let full_icon_url_com = this.icon_url + small_name + '.com'
-    // console.log(full_icon_url)
-    this.http.get(full_icon_url).subscribe(
-      result => {
-        // console.log('result: ' + result)
-      }, (err) => {
-        // console.log(err)
-        if(err.status == '200'){
-          this.logo_url = small_name + '.ca';
-          this.friends[0].icon = full_icon_url;
-          return full_icon_url;
-        }else if(err.status == '501'){ // error couldn't get image from url
-          this.logo_url = small_name + '.com';
-          this.friends[0].icon = full_icon_url_com;
-          return  this.icon_url + small_name + '.com'
-        }else if(err.status == '0'){ // error couldn't get image from url
-          // console.log(small_name + ' 0')
-          // list[i].icon = false;
-          // list[i].icon = this.icon_url + small_name + '.com'
-
-          this.http.get(full_icon_url_com).subscribe(
-            result => {
-              // console.log('result: ' + result)
-            }, (err) => {
-              // console.log('err com: ')
-              // console.log(err)
-              if(err.status == '200'){
-                this.logo_url = small_name + '.com';
-                // console.log('logo url: ' + this.logo_url)
-                this.friends[0].icon = full_icon_url_com;
-                return full_icon_url_com;
-              }else if(err.status == '0'){
-                this.logo_url = ' ';
-                return false;
-              }
-            });
-        }
-      });
-  }
-
-  async loadWorker() {
-    let loader_loaded = false;
-    this.worker = await createWorker({
-      logger: progress => {
-        // console.log(progress);
-        if (progress.status == 'recognizing text') {
-          // this.captureProgress = progress.progress
-          // if (!loader_loaded){
-          //   this.ionLoader.showLoader_msg('test');
-          //   this.show_progress = true;
-          //   loader_loaded = true;
-          // }
-
-          this.captureProgress = parseInt('' + progress.progress * 100);
-
-          // console.log(this.captureProgress)
-          // this.ionLoader.progress = progress.progress;
-
-        }
-      }
-    });
-    // await this.worker.load();
-    await this.worker.loadLanguage('fin');
-    await this.worker.initialize('fin');
-    await this.worker.setParameters({
-      // tessedit_ocr_engine_mode: OEM.TESSERACT_LSTM_COMBINED,
-      tessedit_pageseg_mode: PSM.SPARSE_TEXT,
-      // tessedit_pageseg_mode: PSM.SPARSE_TEXT_OSD,
-    });
-
-    // console.log('Finish')
-    this.workerReady = true;
-  }
+  // async loadWorker() {
+  //   let loader_loaded = false;
+  //   this.worker = await createWorker({
+  //     logger: progress => {
+  //       // console.log(progress);
+  //       if (progress.status == 'recognizing text') {
+  //         // this.captureProgress = progress.progress
+  //         // if (!loader_loaded){
+  //         //   this.ionLoader.showLoader_msg('test');
+  //         //   this.show_progress = true;
+  //         //   loader_loaded = true;
+  //         // }
+  //
+  //         this.captureProgress = parseInt('' + progress.progress * 100);
+  //
+  //         // console.log(this.captureProgress)
+  //         // this.ionLoader.progress = progress.progress;
+  //
+  //       }
+  //     }
+  //   });
+  //   // await this.worker.load();
+  //   await this.worker.loadLanguage('fin');
+  //   await this.worker.initialize('fin');
+  //   await this.worker.setParameters({
+  //     // tessedit_ocr_engine_mode: OEM.TESSERACT_LSTM_COMBINED,
+  //     tessedit_pageseg_mode: PSM.SPARSE_TEXT,
+  //     // tessedit_pageseg_mode: PSM.SPARSE_TEXT_OSD,
+  //   });
+  //
+  //   // console.log('Finish')
+  //   this.workerReady = true;
+  // }
 
   async captureImage() {
     const image = await Camera.getPhoto({
@@ -260,13 +260,13 @@ export class ScanPage implements OnInit {
   async recognizeImage() {
     // this.ionLoader.progress = this.captureProgress;
     // this.ionLoader.showLoader_percentage().then(()=>{
-      this.show_progress = true;
+    //   this.show_progress = true;
     // });
 
     // await this.ionLoader.showLoader_msg(this.captureProgress.toString());
     // this.image = './assets/imgs/r11.jpg' // debug remove later
     // this.image = './assets/imgs/r21.jpg' // debug remove later
-    this.image = './assets/imgs/r32.jpg' // debug remove later
+    // this.image = './assets/imgs/receipt.jpg' // debug remove later
     // this.image = './assets/imgs/0001.jpg' // debug remove later
     // this.image = './assets/imgs/0002.jpg' // debug remove later
     // this.image = './assets/imgs/0003.jpeg' // debug remove later
@@ -281,7 +281,7 @@ export class ScanPage implements OnInit {
     // this.image = cv.resize(this.image, this.image, (0,0),1.2, 1.2, cv.INTER_CUBIC)
 
     // console.log(cv.getBuildInformation())
-    const result = await this.worker.recognize(this.image);
+    // const result = await this.worker.recognize(this.image);
 
     // const result_logo = await this.worker.recognize(this.image,
     //   {rectangle: { top: 0, left: 0, width: 1000, height: 1000 }
@@ -289,85 +289,85 @@ export class ScanPage implements OnInit {
     // console.log(result_logo)
     // console.log(result);
 
-    this.result_array = result.data.lines
-    for (let item of this.result_array) { // loop through the result and remove text that has confidence < 60
-      if (item.confidence > 60) {
-        // console.log(item.text)
-        this.ocrResult += item.text
-      }
-    }
+    // this.result_array = result.data.lines
+    // for (let item of this.result_array) { // loop through the result and remove text that has confidence < 60
+    //   if (item.confidence > 60) {
+    //     // console.log(item.text)
+    //     this.ocrResult += item.text
+    //   }
+    // }
 
     //get subtotal
     // the pattern
-    const regExp = new RegExp('(\\bSubtotal:?|SUBTOTAL|Subtota\\S\\n\\n\\$?\\b)(\\d{1,3}(?:,?\\d{3})*\\.\\d{2})')
-    const regExpGST = new RegExp('(\\bGST\\b[\\/]?(\\w.*)?\\n\\n)(\\d{1,3}(?:,?\\d{3})*\\.\\d{2})');
-    // pattern for small receipt
-    const regExpTotal = new RegExp('(\\bTotal|TOTAL\\n\\n\\$?\\b)(\\d{1,3}(?:,?\\d{3})*\\.\\d{2})');
-
-    const regExpAmount = new RegExp('\\$(\\d{1,3}(?:,?\\d{3})*\\.\\d{2})');
-
-    const regExpIcon = new RegExp('((ftp|http|https):\\/\\/)?(www.)?(?!.*(ftp|http|https|www.))([a-zA-Z0-9_-]+)(\\.\\bca|com\\b)+((\\/)[\\w#]+)*(\\/\\w+\\?[a-zA-Z0-9_]+=\\w+(&[a-zA-Z0-9_]+=\\w+)*)?');
-
-    if(this.ocrResult.match(regExp)){ // if subtotal word found
-      this.subtotal_amount = this.ocrResult.match(regExp)[2];
-      this.gst_amount = ((parseFloat(this.subtotal_amount) * 0.05).toFixed(2)).toString();
-      // if(this.ocrResult.match(regExpGST)){ // check for gst word
-      //   this.gst_amount = this.ocrResult.match(regExpGST)[3]
-      // }
-      this.total_amount = (parseFloat(this.subtotal_amount) + parseFloat(this.gst_amount)).toString();
-    }else if(this.ocrResult.match(regExpTotal)){ // if total found means small receipt
-      // console.log(this.ocrResult.match(regExpTotal)[2]);
-      this.total_amount = this.ocrResult.match(regExpTotal)[2];
-      // get subtotal from total calculations
-      let total_float = parseFloat(this.total_amount);
-      let subtotal_float = (total_float) - ((total_float / (1 + 0.05)) * 0.05);
-      let gst_float = total_float - subtotal_float;
-      console.log('gst float: ' + gst_float);
-      this.subtotal_amount = subtotal_float.toFixed(2).toString();
-      this.gst_amount = gst_float.toFixed(2).toString();
-    }else if(this.ocrResult.match(regExpAmount)){ // if not total found but found amount means small receipt
-      // console.log(this.ocrResult.match(regExpTotal)[2]);
-      this.total_amount = this.ocrResult.match(regExpAmount)[1];
-      // get subtotal from total calculations
-      let total_float = parseFloat(this.total_amount);
-      let subtotal_float = (total_float) - ((total_float / (1 + 0.05)) * 0.05);
-      let gst_float = total_float - subtotal_float;
-      console.log('gst float: ' + gst_float);
-      this.subtotal_amount = subtotal_float.toFixed(2).toString();
-      this.gst_amount = gst_float.toFixed(2).toString();
-    }
+    // const regExp = new RegExp('(\\bSubtotal:?|SUBTOTAL|Subtota\\S\\n\\n\\$?\\b)(\\d{1,3}(?:,?\\d{3})*\\.\\d{2})')
+    // const regExpGST = new RegExp('(\\bGST\\b[\\/]?(\\w.*)?\\n\\n)(\\d{1,3}(?:,?\\d{3})*\\.\\d{2})');
+    // // pattern for small receipt
+    // const regExpTotal = new RegExp('(\\bTotal|TOTAL\\n\\n\\$?\\b)(\\d{1,3}(?:,?\\d{3})*\\.\\d{2})');
+    //
+    // const regExpAmount = new RegExp('\\$(\\d{1,3}(?:,?\\d{3})*\\.\\d{2})');
+    //
+    // const regExpIcon = new RegExp('((ftp|http|https):\\/\\/)?(www.)?(?!.*(ftp|http|https|www.))([a-zA-Z0-9_-]+)(\\.\\bca|com\\b)+((\\/)[\\w#]+)*(\\/\\w+\\?[a-zA-Z0-9_]+=\\w+(&[a-zA-Z0-9_]+=\\w+)*)?');
+    //
+    // if(this.ocrResult.match(regExp)){ // if subtotal word found
+    //   this.subtotal_amount = this.ocrResult.match(regExp)[2];
+    //   this.gst_amount = ((parseFloat(this.subtotal_amount) * 0.05).toFixed(2)).toString();
+    //   // if(this.ocrResult.match(regExpGST)){ // check for gst word
+    //   //   this.gst_amount = this.ocrResult.match(regExpGST)[3]
+    //   // }
+    //   this.total_amount = (parseFloat(this.subtotal_amount) + parseFloat(this.gst_amount)).toString();
+    // }else if(this.ocrResult.match(regExpTotal)){ // if total found means small receipt
+    //   // console.log(this.ocrResult.match(regExpTotal)[2]);
+    //   this.total_amount = this.ocrResult.match(regExpTotal)[2];
+    //   // get subtotal from total calculations
+    //   let total_float = parseFloat(this.total_amount);
+    //   let subtotal_float = (total_float) - ((total_float / (1 + 0.05)) * 0.05);
+    //   let gst_float = total_float - subtotal_float;
+    //   console.log('gst float: ' + gst_float);
+    //   this.subtotal_amount = subtotal_float.toFixed(2).toString();
+    //   this.gst_amount = gst_float.toFixed(2).toString();
+    // }else if(this.ocrResult.match(regExpAmount)){ // if not total found but found amount means small receipt
+    //   // console.log(this.ocrResult.match(regExpTotal)[2]);
+    //   this.total_amount = this.ocrResult.match(regExpAmount)[1];
+    //   // get subtotal from total calculations
+    //   let total_float = parseFloat(this.total_amount);
+    //   let subtotal_float = (total_float) - ((total_float / (1 + 0.05)) * 0.05);
+    //   let gst_float = total_float - subtotal_float;
+    //   console.log('gst float: ' + gst_float);
+    //   this.subtotal_amount = subtotal_float.toFixed(2).toString();
+    //   this.gst_amount = gst_float.toFixed(2).toString();
+    // }
 
     // get logo text
     // if(result_logo.data){
-      console.log(result)
-    console.log(this.ocrResult)
-      let logo_text = result.data.lines[0].text;
-      if (logo_text.includes('TRANSACTION RECORD')) { // if this word on logo skip to next line
-        let index = 1;
-        while(result.data.lines[index].confidence < 60){
-          index++;
-        }
-        logo_text = result.data.lines[index].text;
-      }
-      logo_text = logo_text.replace('\n', '');
-      this.logo_text = logo_text
+    //   console.log(result)
+    // console.log(this.ocrResult)
+    //   let logo_text = result.data.lines[0].text;
+    //   if (logo_text.includes('TRANSACTION RECORD')) { // if this word on logo skip to next line
+    //     let index = 1;
+    //     while(result.data.lines[index].confidence < 60){
+    //       index++;
+    //     }
+    //     logo_text = result.data.lines[index].text;
+    //   }
+    //   logo_text = logo_text.replace('\n', '');
+    //   this.logo_text = logo_text
     // }
 
-    if(this.ocrResult.match(regExpIcon)){
-      console.log(this.ocrResult.match(regExpIcon))
-      this.logo_text = this.ocrResult.match(regExpIcon)[5];
-      console.log('regexp ' + this.logo_text);
-      this.icon_full_url = this.icon_url + this.ocrResult.match(regExpIcon)[5] + this.ocrResult.match(regExpIcon)[6]
-    }
+    // if(this.ocrResult.match(regExpIcon)){
+    //   console.log(this.ocrResult.match(regExpIcon))
+    //   this.logo_text = this.ocrResult.match(regExpIcon)[5];
+    //   console.log('regexp ' + this.logo_text);
+    //   this.icon_full_url = this.icon_url + this.ocrResult.match(regExpIcon)[5] + this.ocrResult.match(regExpIcon)[6]
+    // }
     // log the results
-    console.log('LOGO ==> ' + this.logo_text)
-    console.log('Subtotal ==> ' + this.subtotal_amount)
-    console.log('GST ==> ' + this.gst_amount)
-    console.log('Total ==> ' + this.total_amount)
+    // console.log('LOGO ==> ' + this.logo_text)
+    // console.log('Subtotal ==> ' + this.subtotal_amount)
+    // console.log('GST ==> ' + this.gst_amount)
+    // console.log('Total ==> ' + this.total_amount)
     console.log('User id ==> ' + this.user_id)
 
     this.upload_data();
-    this.reset();
+    // this.reset();
 
     // this.ionLoader.dismissLoader();
     // await this.worker.terminate();
@@ -377,9 +377,9 @@ export class ScanPage implements OnInit {
   }
 
   upload_data(){
-    if(!this.icon_full_url){
-      this.get_icon_single();
-    }
+    // if(!this.icon_full_url){
+    //   this.get_icon_single();
+    // }
 
 
     // if(!this.logo_url){
@@ -388,10 +388,10 @@ export class ScanPage implements OnInit {
     // console.log(this.logo_url)
     // console.log(this.friends[this.friends.length - 1].id)
     let formData = new FormData();
-    formData.append('logo_text', this.logo_text);
-    formData.append('subtotal', this.subtotal_amount);
-    formData.append('gst', this.gst_amount);
-    formData.append('total', this.total_amount);
+    // formData.append('logo_text', this.logo_text);
+    // formData.append('subtotal', this.subtotal_amount);
+    // formData.append('gst', this.gst_amount);
+    // formData.append('total', this.total_amount);
     formData.append('user_id', this.user_id);
     formData.append('image', this.image)
     // formData.append('logo_url', this.logo_url)
@@ -399,20 +399,20 @@ export class ScanPage implements OnInit {
     this.http.post(this.site_url + '/upload_receipt.php', formData).subscribe(
       data => {
         console.log(data)
-        console.log(this.friends)
-        this.friends.reverse();
+        // console.log(this.friends)
+        // this.friends.reverse();
+        //
+        // this.friends.push(
+        //   {
+        //     "id": data['inserted_id'],
+        //     "icon": this.icon_full_url?this.icon_full_url:'./assets/imgs/my-business.png',
+        //     "name": this.logo_text,
+        //     "amount_before_tax": this.subtotal_amount,
+        //     "amount_after_tax": this.total_amount,
+        //   });
+        // this.friends.reverse();
 
-        this.friends.push(
-          {
-            "id": data['inserted_id'],
-            "icon": this.icon_full_url?this.icon_full_url:'./assets/imgs/my-business.png',
-            "name": this.logo_text,
-            "amount_before_tax": this.subtotal_amount,
-            "amount_after_tax": this.total_amount,
-          });
-        this.friends.reverse();
-
-        console.log(this.friends)
+        // console.log(this.friends)
       }, error => {
         // console.log(error)
       });
@@ -420,12 +420,12 @@ export class ScanPage implements OnInit {
     // console.log(this.friends)
   }
 
-  reset() {
-    this.show_progress = false;
-    this.captureProgress = 0;
-    this.ocrResult = '';
-    this.subtotal_amount= '';
-    this.gst_amount = '';
-    this.total_amount= '';
-  }
+  // reset() {
+  //   this.show_progress = false;
+  //   this.captureProgress = 0;
+  //   this.ocrResult = '';
+  //   this.subtotal_amount= '';
+  //   this.gst_amount = '';
+  //   this.total_amount= '';
+  // }
 }

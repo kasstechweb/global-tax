@@ -13,7 +13,8 @@ import {StorageService} from "../services/storage.service";
   styleUrls: ['./signup.page.scss'],
 })
 export class SignupPage implements OnInit {
-  site_url = 'https://employerservice.ca/gtax_receipt_scanner';
+  // site_url = 'https://employerservice.ca/gtax_receipt_scanner';
+  site_url = 'https://localhost/gtax_receipt_scanner';
   signupForm: FormGroup;
   matching_passwords_group: FormGroup;
   stored_email: string;
@@ -32,7 +33,16 @@ export class SignupPage implements OnInit {
     ],
     'matching_passwords': [
       { type: 'areNotEqual', message: 'Password mismatch' }
-    ]
+    ],
+    'verify_client_id': [
+      { type: 'required', message: 'Verify Client ID is required.' },
+    ],
+    'verify_auth_username': [
+      { type: 'required', message: 'Verify Auth Username id is required.' },
+    ],
+    'verify_auth_apikey': [
+      { type: 'required', message: 'Verify Auth API Key is required.' },
+    ],
   };
   constructor(
     public router: Router,
@@ -66,6 +76,15 @@ export class SignupPage implements OnInit {
         Validators.required,
         Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')
       ])),
+      'verify_client_id': new FormControl('', Validators.compose([
+        Validators.required,
+      ])),
+      'verify_auth_username': new FormControl('', Validators.compose([
+        Validators.required,
+      ])),
+      'verify_auth_apikey': new FormControl('', Validators.compose([
+        Validators.required,
+      ])),
       'matching_passwords': this.matching_passwords_group
     });
   }
@@ -80,6 +99,10 @@ export class SignupPage implements OnInit {
       let formData = new FormData();
       formData.append('email', this.signupForm.value['email']);
       formData.append('password', this.matching_passwords_group.value['password']);
+
+      formData.append('verify_client_id', this.signupForm.value['verify_client_id']);
+      formData.append('verify_auth_username', this.signupForm.value['verify_auth_username']);
+      formData.append('verify_auth_apikey', this.signupForm.value['verify_auth_apikey']);
       // console.log(this.matching_passwords_group.value['password'])
       // files.forEach((file) => {
       //   formData.append('files[]', file.rawFile, file.name);
@@ -108,7 +131,7 @@ export class SignupPage implements OnInit {
             // this.fileField.clearQueue();
           }
         }, error => {
-          console.log(error.error.text);
+          // console.log(error);
           if (error.error.text.includes('Duplicate entry')) {
             this.toast.presentToast('An account is already registered with your email address, Please log in.');
           }
