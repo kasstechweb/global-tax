@@ -18,8 +18,8 @@ import {createWorker, OEM, PSM} from 'tesseract.js'
 export class ScanPage implements OnInit {
   // friends: Array<any>;
   // employerservice.ca
-  // site_url = 'https://localhost/gtax_receipt_scanner';
-  site_url = 'https://employerservice.ca/gtax_receipt_scanner';
+  site_url = 'https://localhost/gtax_receipt_scanner';
+  // site_url = 'https://employerservice.ca/gtax_receipt_scanner';
   // icon_url = 'https://app.outboundsales.io/api/logo/';
   icon_url = 'https://logo.clearbit.com/'
   icon_full_url: string;
@@ -266,6 +266,7 @@ export class ScanPage implements OnInit {
     // await this.ionLoader.showLoader_msg(this.captureProgress.toString());
     // this.image = './assets/imgs/r11.jpg' // debug remove later
     // this.image = './assets/imgs/r21.jpg' // debug remove later
+    this.image = './assets/imgs/r32.jpg' // debug remove later
     // this.image = './assets/imgs/0001.jpg' // debug remove later
     // this.image = './assets/imgs/0002.jpg' // debug remove later
     // this.image = './assets/imgs/0003.jpeg' // debug remove later
