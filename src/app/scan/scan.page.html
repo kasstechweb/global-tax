@@ -20,7 +20,7 @@
       <ion-ripple-effect></ion-ripple-effect>
       <ion-col class="user-image-wrapper" size="2">
         <!--        <app-aspect-ratio [ratio]="{w:1, h:1}">-->
-        <ion-img class="user-image" animation="spinner" [src]="friend?.icon ? friend?.icon : './assets/imgs/my-business.png' " [alt]="friend?.name"></ion-img>
+        <ion-img class="user-image" animation="spinner" [src]="friend?.logo ? friend?.logo : './assets/imgs/my-business.png' " [alt]="friend?.name"></ion-img>
         <!--        </app-aspect-ratio>-->
       </ion-col>
       <ion-col class="user-data-wrapper">
@@ -60,15 +60,15 @@
     </ion-fab-button>
   </ion-fab>
 
-  <div class="loading-wrapper" *ngIf="show_progress">
-    <div class="loading-text">
-      <ion-spinner name="crescent"></ion-spinner>
-      Please wait... ({{ captureProgress }}%)
-    </div>
-      <ion-progress-bar [value]="captureProgress/100" color="tertiary" ></ion-progress-bar>
+<!--  <div class="loading-wrapper" *ngIf="show_progress">-->
+<!--    <div class="loading-text">-->
+<!--      <ion-spinner name="crescent"></ion-spinner>-->
+<!--      Please wait... ({{ captureProgress }}%)-->
+<!--    </div>-->
+<!--      <ion-progress-bar [value]="captureProgress/100" color="tertiary" ></ion-progress-bar>-->
 
 
-  </div>
+<!--  </div>-->
 
 
   <!--  <ion-tabs>-->

@@ -67,6 +67,7 @@ export class ScanPage implements OnInit {
                   formData.append('user_id', this.user_id);
                   this.http.post(this.site_url + '/get_receipts.php', formData).subscribe(
                     data => {
+                      console.log(data['data'])
                       this.friends = data['data'];
                       this.friends = this.friends.reverse();
                       this.friendsList = this.friends;
@@ -253,11 +254,43 @@ export class ScanPage implements OnInit {
     });
     // console.log('image: ', image);
 
-    this.image = image.dataUrl;
-    await this.recognizeImage();
+    // this.image = image.base64String;
+    // await this.recognizeImage();
+    // this.upload_data()
+
+    let formData = new FormData();
+    // formData.append('logo_text', this.logo_text);
+    // formData.append('subtotal', this.subtotal_amount);
+    // formData.append('gst', this.gst_amount);
+    // formData.append('total', this.total_amount);
+    formData.append('user_id', this.user_id);
+    formData.append('image', image.dataUrl)
+    // formData.append('logo_url', this.logo_url)
+
+    console.log(this.user_id);
+    this.http.post(this.site_url + '/upload_receipt.php', formData).subscribe(
+      data => {
+        console.log(data)
+        // console.log(this.friends)
+        this.friends.reverse();
+
+        this.friends.push(
+          {
+            "id": data['inserted_id'],
+            "icon": data['result'].vendor.logo,
+            "name": data['result'].vendor.name,
+            // "amount_before_tax": this.subtotal_amount,
+            // "amount_after_tax": this.total_amount,
+          });
+        this.friends.reverse();
+
+        console.log(this.friends)
+      }, error => {
+        console.log(error)
+      });
   }
 
-  async recognizeImage() {
+  // async recognizeImage() {
     // this.ionLoader.progress = this.captureProgress;
     // this.ionLoader.showLoader_percentage().then(()=>{
     //   this.show_progress = true;
@@ -364,9 +397,9 @@ export class ScanPage implements OnInit {
     // console.log('Subtotal ==> ' + this.subtotal_amount)
     // console.log('GST ==> ' + this.gst_amount)
     // console.log('Total ==> ' + this.total_amount)
-    console.log('User id ==> ' + this.user_id)
-
-    this.upload_data();
+    // console.log('User id ==> ' + this.user_id)
+    //
+    // this.upload_data();
     // this.reset();
 
     // this.ionLoader.dismissLoader();
@@ -374,9 +407,9 @@ export class ScanPage implements OnInit {
     // await this.router.navigateByUrl("/scan", { skipLocationChange: true });
     // window.location.reload();
 
-  }
+  // }
 
-  upload_data(){
+  // upload_data(){
     // if(!this.icon_full_url){
     //   this.get_icon_single();
     // }
@@ -387,38 +420,38 @@ export class ScanPage implements OnInit {
     // }
     // console.log(this.logo_url)
     // console.log(this.friends[this.friends.length - 1].id)
-    let formData = new FormData();
-    // formData.append('logo_text', this.logo_text);
-    // formData.append('subtotal', this.subtotal_amount);
-    // formData.append('gst', this.gst_amount);
-    // formData.append('total', this.total_amount);
-    formData.append('user_id', this.user_id);
-    formData.append('image', this.image)
-    // formData.append('logo_url', this.logo_url)
-
-    this.http.post(this.site_url + '/upload_receipt.php', formData).subscribe(
-      data => {
-        console.log(data)
-        // console.log(this.friends)
-        // this.friends.reverse();
-        //
-        // this.friends.push(
-        //   {
-        //     "id": data['inserted_id'],
-        //     "icon": this.icon_full_url?this.icon_full_url:'./assets/imgs/my-business.png',
-        //     "name": this.logo_text,
-        //     "amount_before_tax": this.subtotal_amount,
-        //     "amount_after_tax": this.total_amount,
-        //   });
-        // this.friends.reverse();
-
-        // console.log(this.friends)
-      }, error => {
-        // console.log(error)
-      });
+    // let formData = new FormData();
+    // // formData.append('logo_text', this.logo_text);
+    // // formData.append('subtotal', this.subtotal_amount);
+    // // formData.append('gst', this.gst_amount);
+    // // formData.append('total', this.total_amount);
+    // formData.append('user_id', this.user_id);
+    // formData.append('image', this.image)
+    // // formData.append('logo_url', this.logo_url)
+    //
+    // this.http.post(this.site_url + '/upload_receipt.php', formData).subscribe(
+    //   data => {
+    //     console.log(data)
+    //     // console.log(this.friends)
+    //     this.friends.reverse();
+    //
+    //     this.friends.push(
+    //       {
+    //         "id": data['inserted_id'],
+    //         "icon": this.icon_full_url?this.icon_full_url:'./assets/imgs/my-business.png',
+    //         "name": this.logo_text,
+    //         "amount_before_tax": this.subtotal_amount,
+    //         "amount_after_tax": this.total_amount,
+    //       });
+    //     this.friends.reverse();
+    //
+    //     console.log(this.friends)
+    //   }, error => {
+    //     console.log(error)
+    //   });
 
     // console.log(this.friends)
-  }
+  // }
 
   // reset() {
   //   this.show_progress = false;
