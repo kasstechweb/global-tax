@@ -15,8 +15,8 @@ import {NavController} from "@ionic/angular";
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
-  // site_url = 'https://employerservice.ca/gtax_receipt_scanner';
-  site_url = 'https://localhost/gtax_receipt_scanner';
+  site_url = 'https://employerservice.ca/gtax_receipt_scanner';
+  // site_url = 'https://localhost/gtax_receipt_scanner';
   loginForm: FormGroup;
   stored_email: string;
 

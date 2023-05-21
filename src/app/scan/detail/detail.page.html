@@ -13,9 +13,9 @@
   <div class="recipes-wrapper">
     <div class="recipes-list">
       <div class="recipe-item">
-        <ion-img class="recipe-cover-image" [src]="site_url + data?.image"></ion-img>
+        <ion-img class="recipe-cover-image" [src]="receipt_image? receipt_image: ''"></ion-img>
         <div class="chef-picture-wrapper box">
-            <ion-img class="chef-picture-image" [src]="logo_url != '' ? icon_url + logo_url : './assets/imgs/my-business.png'" [alt]="'logo image'"></ion-img>
+            <ion-img class="chef-picture-image" [src]="data?.logo ? data?.logo : './assets/imgs/my-business.png'" [alt]="'logo image'"></ion-img>
         </div>
         <h4 class="recipe-title">{{ data?.name}}</h4>
         <hr class="details-divider">
@@ -23,15 +23,15 @@
           <ion-item>
             Subtotal
             <span slot="end">
-              $ {{ data?.amount_before_tax}}</span>
+              $ {{ data?.subtotal}}</span>
           </ion-item>
           <ion-item>
             GST(5%)
-            <span slot="end">$ {{ data?.tax_amount}}</span>
+            <span slot="end">$ {{ data?.tax}}</span>
           </ion-item>
           <ion-item>
             Total
-            <span slot="end">$ {{ data?.amount_after_tax}}</span>
+            <span slot="end">$ {{ data?.total}}</span>
           </ion-item>
         </ion-list>
 

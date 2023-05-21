@@ -18,8 +18,8 @@ import {HttpClient} from "@angular/common/http";
 export class ScanPage implements OnInit {
   // friends: Array<any>;
   // employerservice.ca
-  site_url = 'https://localhost/gtax_receipt_scanner';
-  // site_url = 'https://employerservice.ca/gtax_receipt_scanner';
+  // site_url = 'https://localhost/gtax_receipt_scanner';
+  site_url = 'https://employerservice.ca/gtax_receipt_scanner';
   // icon_url = 'https://app.outboundsales.io/api/logo/';
   // icon_url = 'https://logo.clearbit.com/'
   // icon_full_url: string;
@@ -257,37 +257,39 @@ export class ScanPage implements OnInit {
     // this.image = image.base64String;
     // await this.recognizeImage();
     // this.upload_data()
+    this.ionLoader.showLoader().then(()=> {
+      let formData = new FormData();
+      // formData.append('logo_text', this.logo_text);
+      // formData.append('subtotal', this.subtotal_amount);
+      // formData.append('gst', this.gst_amount);
+      // formData.append('total', this.total_amount);
+      formData.append('user_id', this.user_id);
+      formData.append('image', image.dataUrl)
+      // formData.append('logo_url', this.logo_url)
 
-    let formData = new FormData();
-    // formData.append('logo_text', this.logo_text);
-    // formData.append('subtotal', this.subtotal_amount);
-    // formData.append('gst', this.gst_amount);
-    // formData.append('total', this.total_amount);
-    formData.append('user_id', this.user_id);
-    formData.append('image', image.dataUrl)
-    // formData.append('logo_url', this.logo_url)
+      console.log(this.user_id);
+      this.http.post(this.site_url + '/upload_receipt.php', formData).subscribe(
+        data => {
+          console.log(data)
+          // console.log(this.friends)
+          this.friends.reverse();
 
-    console.log(this.user_id);
-    this.http.post(this.site_url + '/upload_receipt.php', formData).subscribe(
-      data => {
-        console.log(data)
-        // console.log(this.friends)
-        this.friends.reverse();
-
-        this.friends.push(
-          {
-            "id": data['inserted_id'],
-            "icon": data['result'].vendor.logo,
-            "name": data['result'].vendor.name,
-            // "amount_before_tax": this.subtotal_amount,
-            // "amount_after_tax": this.total_amount,
-          });
-        this.friends.reverse();
-
-        console.log(this.friends)
-      }, error => {
-        console.log(error)
-      });
+          this.friends.push(
+            {
+              "id": data['inserted_id'],
+              "logo": data['result'].vendor.logo,
+              "name": data['result'].vendor.name,
+              // "amount_before_tax": this.subtotal_amount,
+              // "amount_after_tax": this.total_amount,
+            });
+          this.friends.reverse();
+          this.ionLoader.dismissLoader();
+          console.log(this.friends)
+        }, error => {
+          console.log(error)
+          this.ionLoader.dismissLoader();
+        });
+    });
   }
 
   // async recognizeImage() {

@@ -13,8 +13,8 @@ import {StorageService} from "../services/storage.service";
   styleUrls: ['./signup.page.scss'],
 })
 export class SignupPage implements OnInit {
-  // site_url = 'https://employerservice.ca/gtax_receipt_scanner';
-  site_url = 'https://localhost/gtax_receipt_scanner';
+  site_url = 'https://employerservice.ca/gtax_receipt_scanner';
+  // site_url = 'https://localhost/gtax_receipt_scanner';
   signupForm: FormGroup;
   matching_passwords_group: FormGroup;
   stored_email: string;
