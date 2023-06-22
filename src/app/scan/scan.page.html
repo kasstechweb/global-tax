@@ -53,6 +53,11 @@
 <!--  <ion-button [routerLink]="">-->
 <!--    test-->
 <!--  </ion-button>-->
+  <ion-fab slot="fixed" vertical="bottom" horizontal="start">
+    <ion-fab-button [routerLink]="['/personal-taxes']">
+      <ion-icon name="person-circle-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 
   <ion-fab slot="fixed" vertical="bottom" horizontal="end">
     <ion-fab-button (click)="captureImage()">
