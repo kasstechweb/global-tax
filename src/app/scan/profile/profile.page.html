@@ -1,0 +1,49 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="scan"></ion-back-button>
+    </ion-buttons>
+    <ion-title>PROFILE</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content class="food-details-content">
+
+  <div class="recipes-wrapper">
+    <div class="recipes-list">
+      <div class="recipe-item">
+<!--        <ion-img class="recipe-cover-image" [src]="receipt_image? receipt_image: ''"></ion-img>-->
+<!--        <div class="chef-picture-wrapper">-->
+<!--          <ion-img class="chef-picture-image" [src]="data?.logo ? data?.logo : './assets/imgs/my-business.png'" [alt]="'logo image'"></ion-img>-->
+<!--        </div>-->
+<!--        <h4 class="recipe-title">{{ this.fname? this.fname: ''}}</h4>-->
+        <hr class="details-divider">
+        <ion-list inset>
+          <ion-item>
+            Email:
+            <span slot="end">
+              {{ this.stored_email? this.stored_email: ''}}</span>
+          </ion-item>
+          <ion-item>
+            First Name:
+            <span slot="end">{{ this.fname? this.fname: ''}}</span>
+          </ion-item>
+          <ion-item>
+            Last Name:
+            <span slot="end">{{ this.lname? this.lname: ''}}</span>
+          </ion-item>
+        </ion-list>
+
+      </div>
+    </div>
+
+    <hr class="details-divider">
+    <ion-button class="signup-btn" (click)="logout()" expand="block">Log Out</ion-button>
+    <hr class="details-divider">
+    <ion-button class="login-btn" (click)="delete_user()" expand="block">Delete User Account and all Data</ion-button>
+
+
+
+  </div>
+</ion-content>
